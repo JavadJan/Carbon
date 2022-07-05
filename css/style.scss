@@ -1,0 +1,978 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    list-style: none;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+:root {
+    --color-primary: #6c63ff;
+    --color-success: #00bf8e;
+    --color-warning: #f7c94b;
+    --color-danger: #f75842;
+    --color-danger-variant: rgba(247, 88, 66, 0.4);
+    --color-white: #fff;
+    --color-light: rgba(255, 255, 255, 0.7);
+    --color-black: #000;
+    --color-bg: #1f2641;
+    // --color-bg: #d6d6d6;
+    --color-bg1: #2e3667;
+    // --color-bg1: #d1d2d7;
+
+    --color-bg2: #424890;
+    // --color-bg2: #a750c0;
+    --border : 2px solid green;
+
+    --container-width-lg: 76%;
+    --container-width-md: 90%;
+    --container-width-sm: 94%;
+
+    --transition: all 400ms ease;
+}
+
+body {
+    font-family: "montserrat", sans-serif;
+    line-height: 1.7;
+    color: var(--color-white);
+    background: var(--color-bg);
+}
+
+.container {
+    width: var(--container-width-lg);
+    margin: 0 auto;
+}
+
+section {
+    padding: 6rem 0;
+}
+
+section h2 {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    line-height: 1.2;
+
+}
+
+h1 {
+    font-size: 2.4;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.6rem;
+
+}
+
+h4 {
+    font-size: 1.3rem;
+}
+
+a {
+    color: var(--color-white);
+}
+
+img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--color-white);
+    color: var(--color-black);
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn:hover {
+    background: transparent;
+    color: var(--color-white);
+    border-color: var(--color-white);
+}
+#sgn_up:hover{
+    font-weight: 700;
+    background: #fbfcfc;
+}
+.btn-primary {
+    background: var(--color-danger);
+    color: var(--color-white);
+}
+
+nav {
+    background: transparent;
+    width: 100vw;
+    height: 5rem;
+    position: fixed;
+    top: 0;
+    z-index: 11;
+}
+/* change navbar styles on scroll using javascript */
+.window_scroll{
+    background: var(--color-primary);
+    box-shadow: var(--color-primary);
+}
+.nav_container {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav button {
+    display: none;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+
+.nav-menu a {
+    font-size: 0.9rem;
+}
+
+.nav-menu a:hover {
+    color: var(--color-bg2);
+    transition: var(--transition);
+}
+
+/* ================ Header =================== */
+header {
+    position: relative;
+    top: 5rem;
+    overflow: hidden;
+    height: 70vh;
+    margin-bottom: 5rem;
+}
+
+.header__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 5rem;
+    height: 100%;
+}
+
+.header_left p {
+    margin: 1rem 0 2.4rem;
+}
+
+/* ===============================end Header============================ */
+
+.categories {
+    background: var(--color-bg1);
+    height: 32rem;
+}
+
+.categories h1 {
+    line-height: 1;
+    margin-bottom: 3rem;
+}
+
+.categories_container {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 4rem;
+}
+
+.categories_left p {
+    /* margin-left:1rem 0 3rem; */
+    margin-right: 2rem;
+}
+
+.categories_right {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+.category {
+    background: var(--color-bg2);
+    padding: 2rem;
+    border-radius: 2rem;
+    transition: var(--transition);
+    h5{
+        margin-top: 2rem; 
+     }
+     p{
+         font-size: 0.85rem;
+     }
+     &:nth-child(2){
+         .category_icon{
+            background: var(--color-danger);
+    }
+        }
+    &:nth-child(3){
+            .category_icon{
+               background: var(--color-succes);
+        }
+    }
+    &:nth-child(5){
+        .category_icon{
+            background: var(--color-warning);
+        }
+        
+     }
+     &:nth-child(6){
+        .category_icon{
+            background: var(--color-danger);
+        }
+        
+     }
+     &:nth-child(3){
+        .category_icon{
+            background: var(--color-success);
+        }
+        
+     }
+}
+.category:hover{
+    box-shadow: 0 3rem 3rem rgba(0, 0, 0, 0.3);
+}
+.category_icon{
+    background: var(--color-primary);
+    padding: 0.7rem;
+    border-radius: 0.9rem;   
+}
+
+/* ============ Start Courses ============*/
+
+.courses{
+    margin-top: 10rem;
+}
+
+.courses_container{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2rem;
+}
+.course{
+    background: var(--color-bg1);
+    text-align: center;
+    border: 1px solid transparent;
+    transition: var(--transition);
+    &:hover{
+        background: transparent;
+        border-color: var(--color-primary);
+    }
+}
+.course_info{
+    padding: 2rem;
+    p{
+        margin: 1.2rem 0 2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* ============ FAQs ==========*/
+.faqs{
+    
+    background: var(--color-bg2);
+    box-shadow:inset 0 0 3rem rgba(9, 9, 9, 0.5);
+}
+.faqs_container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap:1rem ;
+}
+.faq{
+padding: 2rem;
+display: flex;
+align-items: center;
+gap: 1.4rem;
+height: fit-content;
+background: var(--color-primary);
+cursor: pointer;
+}
+
+.faq h4{
+line-height: 2.2rem;
+font-size: 1rem;
+}
+.faq_icon{
+    align-self: flex-start;
+    font-size: 1.2rem;
+}
+.faq p{
+    margin-top: 0.8rem;
+    display: none;
+}
+.faq.open p{
+    display: block;
+}
+//  ------------------- Best Students ------------
+.bestStudent_container{
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 5rem;
+    .bestStudent_card{
+        padding-top: 2rem;
+        .avatar{
+            border: 2px solid green;
+            width: 6rem;
+            height: 6rem;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border: 1rem solid var(--color-bg1);
+            img{
+                
+                width: 100%;
+                height: 100%;
+                object-fit: fit;
+            }
+        }
+        .student_info{
+            text-align: center;
+            margin: 0 auto 1rem;
+        }
+        .student_body{
+            background: var(--color-primary);
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        .student_body:before{
+            content: ' ';
+            display: block;
+            background: linear-gradient(135deg,transparent,var(--color-primary),var(--color-primary));
+            width: 3rem;
+            height: 3rem;
+            position: relative;
+            left: 48%;
+            top: -3.5rem;
+            transform: rotate(45deg);
+        }
+    }
+}
+
+footer{
+    background: var(--color-bg1);
+    padding-top: 5rem;
+    font-size: 0.9rem;
+    .footer_container{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 5rem;
+        div h4{
+            margin-bottom: 1.2rem;
+        }
+        .footer_1 p{
+            margin: 0 0 2rem;
+        }
+        ul li{
+            margin-bottom: 0.7rem;
+        }
+        ul li a:hover{
+            text-decoration: underline;
+        }
+
+        .footer_social{
+            display: flex;
+            gap: 1rem;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+        }
+    }
+    .footer_copyright{
+        text-align: center;
+        margin-top: 4rem;
+        padding: 1.2rem 0;
+        border-top: 1px solid var(--color-bg2);
+    }
+}
+
+input{
+    height: 2.5rem;
+    padding: 10px;
+    background: var(--color-bg);
+    color: var(--color-white);
+}
+
+
+/* ===================== LOGIN =====================*/
+
+.login{
+    position: relative;
+    width: var(--container-width-lg);
+    right: 0;
+    margin: 0 auto;
+    
+    height: 100vh;
+    .login_user{
+        width:100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-top: 3rem;
+        .login_user_left{
+            width: 80%;
+            height: fit-content;
+            padding: 1rem;
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .login_user_right{
+            
+            display: flex;
+            flex-direction: column;
+            
+            gap: 1rem;
+            width: 70%;
+            height: 95%;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 4rem;
+            
+            background: var(--color-bg2);
+            h4 span{
+                color: var(--color-danger);
+            }
+            .form_login{
+                height: 100%;
+                display: flex;
+                padding-top: 0;
+                width: 100%;
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                padding: 2rem;
+                
+                button{
+                    height: 2.5rem;
+                    background: var(--color-success);
+                    transition: var(--transition);
+                    cursor: pointer;
+                    font-size: 1.2rem;
+                }
+                button:hover{
+                    background: #1dddaa;
+                }
+                a:hover{
+                    color:var(--color-success);
+                    transition: var(--transition);
+                }
+                .forget_pass{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .remember{
+                        display: flex;
+                    }
+                    .remember span{
+                        padding: 5px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/*============ Register ===========*/ 
+.register{
+    position: relative;
+    top: 2rem;
+    width: var(--container-width-md);
+    margin: 0 auto;
+    height: fit-content;
+
+    .register_user{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        height: 100%;
+        // padding: 2rem 4rem;
+        .register_user_left{
+            height: 500px;
+            img{
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+        .register_user_right{
+            position: absolute;
+            right: 5rem;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-bg1);
+            width: 400px;
+            
+            h4{
+                margin: 0 auto;
+                padding: 1rem;
+            }
+            .form_register{
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 3rem;
+                padding-top:1rem;
+                .error_email,.error_pass_confirm,.error_pass{
+                    display: none;
+                    color: #f7c94b;
+                }
+                
+                input{
+                    height: 2.5rem;
+                    padding-left: 10px;
+                    font-size: 1rem;
+                }
+                button{
+                    height: 2.5rem;
+                    font-size: 1.3rem;
+                    background: var(--color-danger);
+                    cursor: pointer;
+                }
+                a{
+                    font-size: 1.1rem;
+                }
+                a span {
+                    color: var(--color-danger);
+                }
+            }
+        }
+    }
+}
+
+// ------------------ MEDIA QUERY FOR TABLETS -----------------
+@media screen and(max-width:1024px) { // any things less than 1024px
+    .container{
+        width: var(--container-width-md);
+    }
+    h1{
+        font-size: 2rem;
+    }
+    h2{
+        font-size: 1.7rem;
+    }
+    h3{
+        font-size: 1.4rem;
+    }
+    h4{
+        font-size: 1.2rem;
+    }
+    // ------------- NAVBAR BUTTON ---------------
+    nav button{
+        display: inline-block;
+        background: transparent;
+        font-size: 1.8rem;
+        color: var(--color-white);
+        cursor: pointer;
+    }
+    nav button#close-menu-btn{
+        display: none;
+    }
+    .nav-menu{
+        display: none;
+        position: fixed;
+        top: 5rem;
+        right: 5%;
+        flex-direction: column;
+        height: fit-content;
+        width: 18rem;
+        gap: 0;
+        li{
+            width: 100%;
+            height: 5.8rem;
+            animation: animateNav 400ms linear forwards;
+            transform-origin: top right;
+            opacity: 0;
+            a{
+                background: var(--color-primary);
+                box-shadow: -4rem 6rem 10rem rgba(0,0,0,0.6);
+                width: 100%;
+                height: 100%;
+                display: grid;
+                place-items: center;
+                
+            }
+            a:hover{
+                background: var(--color-bg2);
+                color: var(--color-white);
+            }            
+        }
+        li:nth-child(2){
+            animation-delay: 200ms;
+        }
+        li:nth-child(3){
+            animation-delay: 400ms;
+        }
+        li:nth-child(4){
+            animation-delay: 600ms;
+        } 
+        /*-------------------- RESPONSIVE LOGIN PAGE ---------*/
+    
+    }
+    @keyframes animateNav {
+        0%{
+            transform: rotateZ(-90deg);
+        }
+        100%{
+            transform:rotateZ(0);
+            opacity: 1;
+        }
+    }
+
+    // -------- HEADER ==============
+     header{
+         height: fit-content;
+         margin-bottom: 5rem;
+         .header__container{
+             gap: 0;
+             padding-bottom: 3rem;
+         }
+     }
+    .categories{
+        height: fit-content;
+    }
+    .categories_container{
+        grid-template-columns: 1fr;
+        gap: 5rem;
+        .categories_left{
+            margin-right: 0;
+        }
+    }
+
+    // -------------------- COURSES ----------
+    .courses{
+        margin-top: 2rem;        
+    }
+    .courses_container{
+        grid-template-columns: 1fr 1fr;
+    }
+
+    // ------------------ FAQS ----------------
+    .faq{
+        padding: 1.5rem;
+    }
+    .faqs_container{
+        grid-template-columns: 1fr;
+    }
+
+    // ---------------------- FOOTER -----------
+     footer .footer_container{
+         padding: 1rem;
+         grid-template-columns:1fr 1fr;
+         
+     }
+
+    .login .login_user{
+         width: 100%;
+        grid-template-columns: 1fr 1fr;
+        padding: 0;
+        .login_user_left{
+            height: fit-content;
+            margin: 0;
+            img{
+                height: 500px;
+            }
+            
+        }
+        .login_user_right{
+            width: 400px;
+            margin: 1rem;
+            height: 500px;
+        }
+        .forget_pass{
+            flex-direction: column;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        button{
+            height: 2rem;
+            padding:0.8rem ;
+            padding-bottom: 1.5rem;
+        }
+    }
+}
+
+@media screen and (max-width:600px) {
+    .container{
+        width: var(--container-width-sm);
+    }
+    h1{
+        font-size: 1.4rem;
+    }
+    h2{
+        font-size: 1.2rem;
+    }
+    h3{
+        font-size: 1.1rem;
+    }
+    h4{
+        font-size: 1rem;
+    }
+    // ------------- NAVBAR BUTTON ---------------
+    .nav-menu{
+        right: 3%;
+        li{
+            width: 100%;
+            height: 5.8rem;
+            animation: animateNav 400ms linear forwards;
+            transform-origin: top right;
+            opacity: 0;           
+        }
+    }
+    // -------- HEADER ==============
+     header{
+         height: fit-content;
+         .header__container{
+             padding-bottom: 4rem;
+             grid-template-columns: 1fr;
+             text-align: center;
+             .header_left p{
+                margin-bottom: 1.3rem;
+            }
+         }
+         
+     }
+    //  ------------ CATEGORIES -------
+    .category{
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+    .categories_container{
+        grid-template-columns: 1fr;
+        margin-top:0;
+        gap: 5rem;
+        text-align: center;
+        p{
+            padding-bottom: 1.3rem;
+        }
+        .categories_right{
+            grid-template-columns:  1fr 1fr;
+        }
+    }
+
+    // -------------------- COURSES ----------
+    .courses_container{
+        grid-template-columns:1fr;
+    }
+
+    // ------------------ BEST STUDENT ----------------
+    .student_body{
+        padding-top: 10px;
+        border: 2px solid green;
+        p{
+            border: 2px solid green;
+            margin-top: 10px;
+        }
+    }
+
+    // ---------------------- FOOTER -----------
+     footer .footer_container{
+         grid-template-columns:1fr;
+         text-align: center;
+         gap: 2rem;
+         .footer_1 p{
+             margin: 1rem auto;
+         }
+         .footer_social{
+             justify-content: center;
+
+         }
+     }
+
+
+
+     /*============= LOGIN ============*/
+     .login .login_user{
+         margin: 0 auto;
+         grid-template-columns: 1fr;
+         .login_user_left{
+             display: none;
+         }
+         .login_user_right{
+             width: 90%;
+             margin: o auto;
+             .forget_pass{
+                 display: flex;
+                 flex-direction: row;
+             }
+             a{
+                 margin: 0 auto;
+             }
+         }
+     }
+
+
+
+
+    }
+
+
+// --------------- ABOUT PAGE CSS ---------------
+.about_achivement{
+    margin-top: 6rem;
+    
+}
+.about_achivement_container{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 5rem;
+    .about_achivement_right >p {
+        margin: 1.6rem 0 2.5rem;
+    }
+}
+.achievements_cards{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1.5rem;
+    .achievement_card{
+        background: var(--color-bg1);
+        padding: 1rem;
+        text-align: center;
+        border-radius: 1rem;
+        transition: var(--transition);
+        .achievement_icon{
+            font-size: 2rem;
+            background: var(--color-primary);
+            padding: 3px 10px;
+            margin-bottom: 2rem;
+            border-radius: 1rem;
+            display: inline-block;
+        }
+        
+    }
+    .achievement_card:nth-child(2) .achievement_icon{
+        background: var(--color-success);
+    }
+    .achievement_card:nth-child(3) .achievement_icon{
+        background: var(--color-warning);
+    }
+    .achievement_card:hover{
+        background: var(--color-bg2);
+        box-shadow: 0 3rem 3rem rgba(0,0,0,0.3);
+    }
+}
+
+/* ================== TEAM ====================*/
+.team{
+    margin: 0 auto;
+    // width: var(--container-width-sm);
+    padding-top: 2rem;
+    background-color: var(--color-bg);
+    box-shadow: inset 0 0 3rem rgba(0,0,0,0.5);
+    .team_container{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 1rem;
+        margin: 0 auto;
+        width: var(--container-width-lg);
+        .team_member{
+            padding: 1rem;
+            background: var(--color-bg1);
+            border: 1px solid transparent;
+            transition: var(--transition);
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            
+            .team_member-image{
+                filter: saturate(0);
+                img{
+                    height: 235px;
+                }
+            }
+            
+            .team_member-social{
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 25%;
+                right: -100%;
+                background: var(--color-bg2);
+                box-shadow: inset 0rem 1rem 1rem rgba(0, 0, 0, 0.3);
+                padding: 0.5rem;
+                border-radius: 1rem 0 0 1rem;
+                transition: var(--transition);
+                a{
+                    margin: 0.5rem;
+                    font-size: 1.3rem;
+                }
+            }
+            .team_member-info *{
+                text-align: center;
+                margin-top: 1.3rem;
+            }
+            .team_member-info p {
+                color: var(--color-light);
+
+            }
+        }
+        .team_member:hover{
+            background-color:var(--color-bg1);
+            border-color: var(--color-primary);
+        }
+        .team_member:hover .team_member-image{
+            filter: saturate(1);
+        }
+        
+        .team_member:hover .team_member-social{
+            right: 0;
+        }
+    }
+}
+
+/*------------- ABOUT PAGE QUERY ------------*/ 
+@media screen and (max-width:1024px) {
+    .about_achivement{
+        margin-top: 2rem;
+    }
+    
+    .about_achivement_container{
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    .about_achivement_left{
+        width: 80%;
+        margin: 0 auto;
+    }
+    .team .team_container{
+        grid-template-columns: repeat(2,1fr);
+        gap: 1.7rem;
+    }
+    .team .team_member{
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width:600px) {
+     .achievements_cards{
+        grid-template-columns: 1fr 1fr;
+        gap: 1.4rem;
+    }
+    .team .team_container{
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        .team_member > p{
+            margin-bottom: 1.3rem;
+        }
+    }
+    
+    
+}
+
+
