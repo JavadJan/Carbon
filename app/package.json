@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^15.3.1"
+  },
+  "main": "./lib/cjs/puppeteer/puppeteer.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types.d.ts",
+      "import": "./lib/esm/puppeteer/puppeteer.js",
+      "require": "./lib/cjs/puppeteer/puppeteer.js"
+    },
+    "./*": {
+      "import": "./*",
+      "require": "./*"
+    }
+  }
+}

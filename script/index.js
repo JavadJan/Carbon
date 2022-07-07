@@ -29,7 +29,10 @@ const db = getFirestore(app);
 // else{
 //     var users = JSON.parse(localStorage.getItem("Users"));
 // }
-//  crud from database for users 
+//  crud from database for users
+const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+const regPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
+
 const getUser = async () => {
     const userCollectionRef = collection(db, "users")
     const data = await getDocs(userCollectionRef)
@@ -50,33 +53,53 @@ valid.forEach(e => {
     })
 })
 
-function validation(user) {
+const validation = async (user) => {
     console.log(user.value)
 
     // ========== VALIDATE EMAIL ================
     if (user.id === 'user_email_register') {
 
-        if (!checkEmail(user)) {
-            document.querySelector('.error_email').innerHTML = `Format email is wrong! <i class="uil uil-exclamation-triangle"></i>`
-            document.querySelector('.error_email').style.display = 'inline-block'
-            document.getElementById('user_email_register').focus();
-        }
-        else {
+        // check in firestore
+        const userCollectionRef = collection(db, "users")
+        const data = await getDocs(userCollectionRef)
+        const user = data.docs.map((doc) => ({
+            ...doc.data(), id: doc.id
+        }))
+
+        if (regEmail.test(user.value) && !user.some((u) => u.email === user.value)) {
             document.querySelector('.error_email').style.display = 'none'
             document.getElementById('password_register').focus()
+        }
+        else {
+            if (user.value==='') {
+                document.getElementById('register').focus;
+            }
+            else{
+                console.log('email na dororst! ')
+                document.querySelector('.error_email').innerHTML = `Format email is wrong! <i class="uil uil-exclamation-triangle"></i>`
+                document.querySelector('.error_email').style.display = 'inline-block'
+                document.getElementById('user_email_register').focus();
+            }
         }
 
     }
     else if (user.id === 'password_register') {
-        console.log('check pass')
-        if (!checkPass(user)) {
-            document.querySelector('.error_pass').innerHTML = `Use strong password! <i class="uil uil-exclamation-triangle"></i>`
-            document.querySelector('.error_pass').style.display = 'inline-block'
-            document.getElementById('password_register').focus();
-        }
-        else {
+        // ------ validation password ------------
+        if (regPass.test(user.value)) {
             document.querySelector('.error_pass').style.display = 'none'
             document.getElementById('confirm_password').focus()
+            console.log('pass pattern dorost')
+        }
+        else {
+            if (user.value==='') {
+                document.getElementById('register').focus;
+            }
+            else{
+                document.querySelector('.error_pass').innerHTML = `Use strong password! <i class="uil uil-exclamation-triangle"></i>`
+                document.querySelector('.error_pass').style.display = 'inline-block'
+                document.getElementById('password_register').focus();
+            }
+            
         }
     }
     if (user.id === 'confirm_password') {
@@ -92,42 +115,20 @@ function validation(user) {
         }
     }
 
-    console.log(user)
 }
 
 
-const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-const regPass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/
-
-const checkEmail = async (us) => {
-    const userCollectionRef = collection(db, "users")
-    const data = await getDocs(userCollectionRef)
-    const user = data.docs.map((doc) => ({
-        ...doc.data(), id: doc.id
-    }))
 
 
-    if (regEmail.test(us.value) && us.value !== '') {
-        for (let i = 0; i < user.length; i++) {
-            console.log('email checking: ',user[i].email)
-            if (user[i].email === us.value) {
-                console.log('there is: ',user[i].email)
-                return false
-            }            
-        }
-        return true
-    }
-    else {
-        console.log("false")
-        return false
-    }
-}
+
 
 function checkPass(pass) {
-    if (regPass.test(pass.value) && pass.value !== '' && pass.value.length > 8) {
+    if (regPass.test(pass.value) && pass.value === '' && pass.value.length > 8) {
+        console.log(true)
         return true
     }
     else {
+        console.log(false)
         return false
     }
 }

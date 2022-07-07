@@ -1,4 +1,4 @@
-
+// const webData = require('./Webscript-data')
 // if (!logged) {
 //     window.location.href='http://127.0.0.1:5500/login.html'
 // }
@@ -26,6 +26,7 @@ if (!localStorage.toDos) {
 else{
     var toDos = JSON.parse(localStorage.getItem('toDos'))
 }
+
 function logout() {
     localStorage.removeItem('logged')
     window.location.href='http://127.0.0.1:5500/login.html'
@@ -80,6 +81,12 @@ function displayList() {
 }
 // {title:toDos[i].title,date:toDos[i].date,description:toDos[i].description}
 // edit.forEach((e,i) => function() {Edit(e,i)});
+const queryString = window.location.search;
+console.log(queryString);
+const urlParams = new URLSearchParams(queryString);
+
+const product = urlParams.get('product')
+console.log(product);
 //  ====================== ADD TODO ==================
 function add() {
     let title= document.getElementById('title').value
