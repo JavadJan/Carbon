@@ -1,21 +1,28 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore,collection, getDocs } from "@firebase/firestore";
-// import { getFirestore } from 'https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-firestore-lite.js';
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDWFQqIQ0zzxtwAlQOO2uZDe2TJEPhC4sk",
-  authDomain: "todolist-de9c0.firebaseapp.com",
-  projectId: "todolist-de9c0",
-  storageBucket: "todolist-de9c0.appspot.com",
-  messagingSenderId: "552384689075",
-  appId: "1:552384689075:web:b8eab7a2153a71bda851c6",
-  measurementId: "G-JXPNCJ96KR"
+  apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
+  authDomain: "carbon-9105d.firebaseapp.com",
+  projectId: "carbon-9105d",
+  storageBucket: "carbon-9105d.appspot.com",
+  messagingSenderId: "740319411128",
+  appId: "1:740319411128:web:2f78ab5d7c5f7e300f2d4d",
+  measurementId: "G-SXFPWZT59L"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+
+
+
+
+
+
+
+
+
 
 
 

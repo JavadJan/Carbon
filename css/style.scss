@@ -499,7 +499,7 @@ input{
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 4rem;
-        height: 100%;
+        height: auto;
         // padding: 2rem 4rem;
         .register_user_left{
             height: 500px;
@@ -511,7 +511,7 @@ input{
         .register_user_right{
             position: absolute;
             right: 5rem;
-            height: 500px;
+            height: fit-content;
             display: flex;
             flex-direction: column;
             background: var(--color-bg1);
@@ -527,7 +527,8 @@ input{
                 gap: 1.5rem;
                 padding: 3rem;
                 padding-top:1rem;
-                .error_email,.error_pass_confirm,.error_pass{
+
+                .error_email,.error_pass_confirm,.error_pass,#fill-form{
                     display: none;
                     color: #f7c94b;
                 }

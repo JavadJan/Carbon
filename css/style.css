@@ -486,7 +486,7 @@ input {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  height: 100%;
+  height: auto;
 }
 .register .register_user .register_user_left {
   height: 500px;
@@ -499,7 +499,9 @@ input {
 .register .register_user .register_user_right {
   position: absolute;
   right: 5rem;
-  height: 500px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   background: var(--color-bg1);
@@ -516,7 +518,7 @@ input {
   padding: 3rem;
   padding-top: 1rem;
 }
-.register .register_user .register_user_right .form_register .error_email, .register .register_user .register_user_right .form_register .error_pass_confirm, .register .register_user .register_user_right .form_register .error_pass {
+.register .register_user .register_user_right .form_register .error_email, .register .register_user .register_user_right .form_register .error_pass_confirm, .register .register_user .register_user_right .form_register .error_pass, .register .register_user .register_user_right .form_register #fill-form {
   display: none;
   color: #f7c94b;
 }
