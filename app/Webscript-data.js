@@ -1,5 +1,5 @@
 // const puppeteer = require('puppeteer');
-import puppeteer from "puppeteer" 
+import puppeteer from "./puppeteer" 
 // import puppeteer from 'https://cdn.jsdelivr.net/npm/puppeteer@15.3.1/lib/cjs/puppeteer/puppeteer.min.js'
 
 async function scrapeCourse(url){

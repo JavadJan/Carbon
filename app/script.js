@@ -1,10 +1,22 @@
-// const webData = require('./Webscript-data')
-// if (!logged) {
-//     window.location.href='http://127.0.0.1:5500/login.html'
-// }
-var index=0
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+import { getFirestore, doc, getDoc, getDocs, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+
+export const firebaseConfig = {
+    apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
+    authDomain: "carbon-9105d.firebaseapp.com",
+    projectId: "carbon-9105d",
+    storageBucket: "carbon-9105d.appspot.com",
+    messagingSenderId: "740319411128",
+    appId: "1:740319411128:web:2f78ab5d7c5f7e300f2d4d",
+    measurementId: "G-SXFPWZT59L"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app)
+
+var index = 0;
 if (!localStorage.toDos) {
-    var toDos= [
+    var toDos = [
         {
             title: "Work ou",
             date: "02/11/2022",
@@ -21,20 +33,20 @@ if (!localStorage.toDos) {
             description: "this is for test",
         }
     ]
-    localStorage.setItem('toDos',JSON.stringify(toDos))
+    localStorage.setItem('toDos', JSON.stringify(toDos))
 }
-else{
+else {
     var toDos = JSON.parse(localStorage.getItem('toDos'))
 }
 
 function logout() {
     localStorage.removeItem('logged')
-    window.location.href='http://127.0.0.1:5500/login.html'
+    window.location.href = 'http://127.0.0.1:5500/login.html'
 }
 
 function display() {
-    const logged= JSON.parse(localStorage.getItem('logged'))
-    document.getElementById('us').innerText=`${logged.name , logged.lastname}`
+    const logged = JSON.parse(localStorage.getItem('logged'))
+    document.getElementById('us').innerText = `${logged.name, logged.lastname}`
 
 
 }
@@ -44,76 +56,95 @@ display()
 // const todo = document.getElementById('todoList')
 // todo.addEventListener('click',function() {
 //     todoList(e)
-    
+
 // })
 
 //#region  ============ to do list area ========================
-function displayList() {
-    document.getElementById('addTodo').style.display='inline-block'
-    document.getElementById('currentHeader').textContent=document.getElementById('todoList').textContent
-    
-    document.querySelector('.currentDo').innerHTML+=`<table>
-    <thead>
-        <tr>
-            <td>Title</td>
-            <td>time</td>
-            <td>description</td>
-            <td></td>
-            <td></td>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody id="upd-date">
-    </table>`
+const displayTodo = document.getElementById('todoList')
+displayTodo.addEventListener('click', function () { displayTodoList() })
+
+async function displayTodoList() {
+    console.log('clicked todo')
+    document.getElementById('todos').style.display = 'inline-block'
+    document.getElementById('addTodo').style.display = 'inline-block'
+    document.getElementById('currentHeader').textContent = document.getElementById('todoList').textContent
+
+
     console.log(toDos.length)
-    document.getElementsByTagName('tbody')[0].innerHTML=''
-    for (let i = 0; i < toDos.length; i++) {
-        document.getElementsByTagName('tbody')[0].innerHTML+=`<tr data-cell>
-        <td>${toDos[i].title}</td>
-        <td>${toDos[i].date}</td>
-        <td>${toDos[i].description}</td>
+
+    const todoCollectionRef = await collection(db, 'toDos')
+    const data = await getDocs(todoCollectionRef)
+    const todos = await data.docs.map((doc) => ({
+        ...doc.data(), id: doc.id
+    }))
+    console.log(todos)
+    // document.getElementsByTagName('tbody')[0].innerHTML=''
+    for (let i = 0; i < todos.length; i++) {
+        
+        document.getElementById('listTodos').innerHTML +=
+            `<tr data-cell>
+        <td>${todos[i].title}</td>
+        <td>${todos[i].date.toDate()}</td>
+        <td>${todos[i].description}</td>
         <td>
-            <button data-edit class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="Edit('${toDos[i].title}','${toDos[i].date}','${toDos[i].description}','${i}')">Edit</button>
-            <button onclick="del('${i}')" class="btn">Delete</button>
+            <button data-edit class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="Edit('${todos[i].title}','${todos[i].date}','${todos[i].description}','${todos[i].id}')">Edit</button>
+            <button onclick="del('${todos[i].id}')" class="btn">Delete</button>
         </td>
     </tr>`
     }
 }
 // {title:toDos[i].title,date:toDos[i].date,description:toDos[i].description}
 // edit.forEach((e,i) => function() {Edit(e,i)});
-const queryString = window.location.search;
-console.log(queryString);
-const urlParams = new URLSearchParams(queryString);
+document.getElementById('room').addEventListener('click', function () { room() })
+function room(params) {
+    console.log("room")
+}
 
-const product = urlParams.get('product')
-console.log(product);
+
 //  ====================== ADD TODO ==================
-function add() {
-    let title= document.getElementById('title').value
-    let date= document.getElementById('date').value
+
+const add = document.getElementById('save')
+add.addEventListener('click',function(){addTodos()})
+async function addTodos() {
+    console.log('pressed save')
+    const todoCollectionRef = collection(db, 'toDos')
+    const data = await getDocs(todoCollectionRef)
+    const todos = data.docs.map((doc) => ({
+        ...doc.data(), id: doc.id
+    }))
+
+    let title = document.getElementById('title').value
+    let date = document.getElementById('date').value
     let description = document.getElementById('description').value
-    const todo = {title:title,date:date,description:description}
-    
-    toDos.push(todo)
-    localStorage.setItem('toDos',JSON.stringify(toDos));
-    document.getElementsByTagName('tbody')[0].innerHTML+=`<tr data-cell>
-        <td>${title}</td>
-        <td>${date}</td>
-        <td>${description}</td>
-        <td>
-            <button class="btn" data-bs-toggle="modal" data-bs-target="#EditModal" onclick="Edit('${toDos[i].title}','${toDos[i].date}','${toDos[i].description}')">Edit</button>
-            <button class="btn" onclick="del('${i}')">Delete</button>
-        </td>
-    </tr>`
-    
+    // const todo = {title:title,date:date,description:description}
+
+    await addDoc(todoCollectionRef, { title: title, data: date, description: description })
+    // localStorage.setItem('toDos',JSON.stringify(toDos));
+    document.getElementById('listTodos').innerHTML +=
+
+        todos.map((todo) => {
+            `
+            <tr data-cell>
+            <td>${todo.title}</td>
+            <td>${todo.date}</td>
+            <td>${todo.description}</td>
+            <td>
+                <button class="btn" data-bs-toggle="modal" data-bs-target="#EditModal" onclick="Edit('${todo.title}','${todo.date}','${todo.description}','${todo.id}')">Edit</button>
+                <button class="btn" onclick="del('${todo.id}')">Delete</button>
+            </td>
+        </tr>`
+        })
+        
+        
+        
 }
 
 
 // ======================= update ========================
 
-function Edit(t,d,ds,i) {
-    document.getElementById('modal-edit').innerHTML=
-    `<div class="modal-header" >
+function Edit(t, d, ds, i) {
+    document.getElementById('modal-edit').innerHTML =
+        `<div class="modal-header" >
     <h5 class="modal-title" id="editModalLabel">Add Project</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
@@ -132,28 +163,28 @@ function Edit(t,d,ds,i) {
   </div>`
 
 
-    console.log(t,d,ds)
-    document.getElementById('up_title').value=t
-    document.getElementById('up_date').value=d
-    document.getElementById('up_description').value=ds
-    index =i
+    console.log(t, d, ds)
+    document.getElementById('up_title').value = t
+    document.getElementById('up_date').value = d
+    document.getElementById('up_description').value = ds
+    index = i
     console.log(index)
 }
 
 // ========================= UPDATE ========================
 function update(indis) {
-   let title= document.getElementById('up_title').value
-   let date = document.getElementById('up_date').value
-   let des  = document.getElementById('up_description').value
+    let title = document.getElementById('up_title').value
+    let date = document.getElementById('up_date').value
+    let des = document.getElementById('up_description').value
 
-   let todo ={title:title,date:date,description:des}
-   toDos.splice(indis, 1, todo);
-   localStorage.setItem('toDos',JSON.stringify(toDos))
-   toDos = JSON.parse(localStorage.getItem('toDos'))
-   document.getElementsByTagName('tbody')[0].innerHTML=''
+    let todo = { title: title, date: date, description: des }
+    toDos.splice(indis, 1, todo);
+    localStorage.setItem('toDos', JSON.stringify(toDos))
+    toDos = JSON.parse(localStorage.getItem('toDos'))
+    document.getElementsByTagName('tbody')[0].innerHTML = ''
 
-   for (let i = 0; i < toDos.length; i++) {
-    document.getElementsByTagName('tbody')[0].innerHTML+=`<tr data-cell>
+    for (let i = 0; i < toDos.length; i++) {
+        document.getElementsByTagName('tbody')[0].innerHTML += `<tr data-cell>
     <td>${toDos[i].title}</td>
     <td>${toDos[i].date}</td>
     <td>${toDos[i].description}</td>
@@ -162,19 +193,19 @@ function update(indis) {
         <button onclick="del('${toDos[i]}')" class="btn">Delete</button>
     </td>
 </tr>`
-}
+    }
 }
 
 console.log('before del :', toDos)
 function del(i) {
     console.log(i)
-    toDos.splice(i,1)
-   localStorage.setItem('toDos',JSON.stringify(toDos))
-   toDos = JSON.parse(localStorage.getItem('toDos'))
-   console.log(toDos)
-   document.getElementsByTagName('tbody')[0].innerHTML=''
-   for (let i = 0; i < toDos.length; i++) {
-    document.getElementsByTagName('tbody')[0].innerHTML+=`<tr data-cell>
+    toDos.splice(i, 1)
+    localStorage.setItem('toDos', JSON.stringify(toDos))
+    toDos = JSON.parse(localStorage.getItem('toDos'))
+    console.log(toDos)
+    document.getElementsByTagName('tbody')[0].innerHTML = ''
+    for (let i = 0; i < toDos.length; i++) {
+        document.getElementsByTagName('tbody')[0].innerHTML += `<tr data-cell>
     <td>${toDos[i].title}</td>
     <td>${toDos[i].date}</td>
     <td>${toDos[i].description}</td>
@@ -183,7 +214,7 @@ function del(i) {
         <button onclick="del('${toDos[i]}')" class="btn">Delete</button>
     </td>
 </tr>`
-}
+    }
 
 }
 //#endregion ================ todoList =============================

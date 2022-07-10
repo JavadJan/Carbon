@@ -36,7 +36,7 @@ const login = async () => {
             if (users[i].password === pa) {
                 console.log(users, '5')
                 localStorage.setItem('logged', JSON.stringify(users[i]))
-                window.location.href = `http://127.0.0.1:5500/app/index.html/?id=${users[i].id}`
+                window.location.href = `http://127.0.0.1:5500/app/index.html`
                 return
             }
 

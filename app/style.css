@@ -148,12 +148,12 @@ body{
 .toggle ion-icon{
     font-family: fontAwesome;
     position: absolute;
-    top: 4%;
+    top: 6%;
     line-height: 20px;
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
     color: rgb(253, 253, 253);
-    left: 2px;
+    left: 1rem;
     
 }
 
@@ -332,6 +332,10 @@ body{
 .details .currentDo table thead tr td:nth-child(3)
 ,.details .currentDo table tbody tr td:nth-child(3){
     text-align: center;
+}
+
+#todos{
+    display: none;
 }
 
 .status{

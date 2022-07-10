@@ -2,7 +2,7 @@
   "name": "app",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "./lib/cjs/puppeteer/puppeteer.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,9 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "firebase": "^9.9.0",
     "puppeteer": "^15.3.1"
   },
-  "main": "./lib/cjs/puppeteer/puppeteer.js",
   "exports": {
     ".": {
       "types": "./lib/types.d.ts",
