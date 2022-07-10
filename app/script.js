@@ -14,6 +14,17 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 
+const queryString = window.location.search;
+console.log(queryString);
+const urlParams = new URLSearchParams(queryString);
+console.log(urlParams);
+
+const userID = urlParams.get(`id`)
+console.log(userID);
+
+
+
+
 var index = 0;
 if (!localStorage.toDos) {
     var toDos = [
@@ -44,21 +55,25 @@ function logout() {
     window.location.href = 'http://127.0.0.1:5500/login.html'
 }
 
-function display() {
-    const logged = JSON.parse(localStorage.getItem('logged'))
-    document.getElementById('us').innerText = `${logged.name, logged.lastname}`
+async function display() {
+
+    const userCollectionRef = collection(db,'users')
+    const data =await getDocs(userCollectionRef)
+    const users =await data.docs.map((doc) =>({...doc.data(),id:doc.id}))
+    let u =users.find(u=>u.id===userID)
+    console.log(u)
+    document.getElementById('us').innerText =u.lastname+' '+ u.firstname
 
 
+    
 }
 display()
-
 //#region  ========================== todoList ====================
 // const todo = document.getElementById('todoList')
 // todo.addEventListener('click',function() {
 //     todoList(e)
 
 // })
-
 //#region  ============ to do list area ========================
 const displayTodo = document.getElementById('todoList')
 displayTodo.addEventListener('click', function () { displayTodoList() })
@@ -78,7 +93,6 @@ async function displayTodoList() {
         ...doc.data(), id: doc.id
     }))
     console.log(todos)
-    // document.getElementsByTagName('tbody')[0].innerHTML=''
     for (let i = 0; i < todos.length; i++) {
         
         document.getElementById('listTodos').innerHTML +=
@@ -93,8 +107,7 @@ async function displayTodoList() {
     </tr>`
     }
 }
-// {title:toDos[i].title,date:toDos[i].date,description:toDos[i].description}
-// edit.forEach((e,i) => function() {Edit(e,i)});
+
 document.getElementById('room').addEventListener('click', function () { room() })
 function room(params) {
     console.log("room")

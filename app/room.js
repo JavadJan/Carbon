@@ -14,5 +14,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// get id grom ulr 
+const usrParams = new URLSearchParams(window.location.search)
+const roomId = usrParams.get('id')
+
+
+
+
 const roomUserCollectionRef = collection(db , 'users')
 console.log(roomUserCollectionRef)
