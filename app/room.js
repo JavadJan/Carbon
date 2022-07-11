@@ -1,14 +1,10 @@
-// import firebase from './firebase/compat/app';
-// import { initializeApp } from 'firebase/app';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-// import { getDatabse } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
-import { getFirestore,collection, getDocs  } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
+import { getFirestore,collection, getDocs  } 
+from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
-// import {} from "https://www.gstatic.com/firebasejs/9.8.4/firebase-auth-compat.js"
-// import {database} from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
+import { getDatabase, ref, set } 
+from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
-// import {userID} from './script'
 const firebaseConfig = {
     apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
     authDomain: "carbon-9105d.firebaseapp.com",
@@ -39,11 +35,30 @@ async function getUser() {
     const users =await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     let user = users.find(u => u.id === userID)
     
-    console.log('add users:', userID,user.email,user.lastname)
+    // console.log('add users:', userID,user.email,user.lastname)
     
     const dbRef =getDatabase();
   set(ref(dbRef, 'users/' + userID), {username: user.lastname,email: user.email});
 }
 getUser()
 // get id grom ulr
+
+const micMuted =document.querySelectorAll('.uil-microphone-slash')
+console.log(micMuted)
+
+micMuted.forEach((item)=>{
+    item.addEventListener('click',()=>{
+        item.classList.remove('active')
+        item.nextElementSibling.classList.add("active")
+    console.log(item)
+})})
+
+const micOn =document.querySelectorAll('.uil-microphone')
+console.log(micOn)
+micOn.forEach((item)=>{
+    item.addEventListener('click',()=>{
+        item.classList.remove('active')
+        item.previousElementSibling.classList.add("active")
+    console.log(item)
+})})
 

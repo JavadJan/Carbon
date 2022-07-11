@@ -1,0 +1,106 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.wrapper{
+    width: 100%;
+    background: rgb(80, 79, 79);
+}
+.main-screen{
+    width: 100%;
+    height: 83vh;
+    background: #0e1322;
+}
+.footer{
+    margin-top: 5px; 
+    height: 13vh;
+    display: flex;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    background: #0e162e;
+    gap: 1rem;
+}
+.footer i {
+    color:  white;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+i{
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.card{
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.users{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    height:100% ;
+    grid-gap: 5px;
+    padding: 5px;
+    
+}
+
+.user{
+    height: 100%;
+    width: 100%;
+    min-height: 200px;
+    border-radius: 5px;
+    position: relative;
+    border-radius: 10px;
+    background: black;
+}
+.video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pic-user{
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgb(255, 227, 47);
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #3c4043;
+}
+
+.muted{
+    position: absolute;
+    top: 13px;
+    right: 13px;
+    color: white;
+    font-size: 1.3rem;
+    
+}
+.muted .uil-microphone{
+      display: none;  
+}
+.uil-microphone.active{
+    display: inline-block;
+}
+.uil-microphone-slash.active{
+    display: inline-block;
+}
+
+.name{
+    position: absolute;
+    left: 13px;
+    bottom: 13px;
+    color: white;
+    font-size: 1.3rem;
+}

@@ -59,7 +59,7 @@ async function display() {
     const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     let u = users.find(u => u.id === userID)
     console.log(u)
-    document.getElementById('us').innerText = u.lastname + ' ' + u.firstname
+    // document.getElementById('us').innerText = u.lastname + ' ' + u.firstname
 
 
 
@@ -118,10 +118,7 @@ async function displayTodoList() {
     }
 }
 
-document.getElementById('room').addEventListener('click', function () { room() })
-function room(params) {
-    console.log("room")
-}
+
 
 
 //  ====================== ADD TODO ==================
