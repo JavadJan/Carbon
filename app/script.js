@@ -15,10 +15,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 
 const queryString = window.location.search;
-console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
-console.log(urlParams);
-
 const userID = urlParams.get(`id`)
 console.log(userID);
 
@@ -57,17 +54,30 @@ function logout() {
 
 async function display() {
 
-    const userCollectionRef = collection(db,'users')
-    const data =await getDocs(userCollectionRef)
-    const users =await data.docs.map((doc) =>({...doc.data(),id:doc.id}))
-    let u =users.find(u=>u.id===userID)
+    const userCollectionRef = collection(db, 'users')
+    const data = await getDocs(userCollectionRef)
+    const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    let u = users.find(u => u.id === userID)
     console.log(u)
-    document.getElementById('us').innerText =u.lastname+' '+ u.firstname
+    document.getElementById('us').innerText = u.lastname + ' ' + u.firstname
 
 
-    
+
 }
+export { userID }
 display()
+// -------------------------- Room --------------------
+const rom = document.getElementById('room')
+rom.addEventListener('click', () =>{
+    let url = `http://127.0.0.1:5500/app/room.html?id=` + encodeURIComponent(userID)
+    document.location.href = url
+})
+
+
+
+
+
+
 //#region  ========================== todoList ====================
 // const todo = document.getElementById('todoList')
 // todo.addEventListener('click',function() {
@@ -94,7 +104,7 @@ async function displayTodoList() {
     }))
     console.log(todos)
     for (let i = 0; i < todos.length; i++) {
-        
+
         document.getElementById('listTodos').innerHTML +=
             `<tr data-cell>
         <td>${todos[i].title}</td>
@@ -117,7 +127,7 @@ function room(params) {
 //  ====================== ADD TODO ==================
 
 const add = document.getElementById('save')
-add.addEventListener('click',function(){addTodos()})
+add.addEventListener('click', function () { addTodos() })
 async function addTodos() {
     console.log('pressed save')
     const todoCollectionRef = collection(db, 'toDos')
@@ -147,9 +157,9 @@ async function addTodos() {
             </td>
         </tr>`
         })
-        
-        
-        
+
+
+
 }
 
 
