@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
-import { getDatabase, ref, set, onDisconnect, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
+import { getDatabase, ref, set, onDisconnect, get, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
@@ -31,6 +31,7 @@ console.log(userID)
 
 async function getUser() {
 
+    // read user from fireatore
     const roomUserCollectionRef = collection(db, 'users')
     const data = await getDocs(roomUserCollectionRef);
     const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -39,37 +40,26 @@ async function getUser() {
 
     console.log('add users:', userID, user.email, user.firstname)
 
+    // connect to database real time
     const dbRef = getDatabase();
-    const connectedRef = ref(dbRef, 'participant')
+
+
+    const connectedRef = await ref(dbRef, 'participant')
     console.log(connectedRef)
-    // // const participantRef = userRef.child('participants')
-
-    // set(ref(dbRef, 'participant/'), user)
-
-    // // const starCountRef = ref(db, 'posts/' + postId + '/starCount');
-    // onValue(connectedRef, (snapshot) => {
-    //     const con = push(connectedRef);
-    //     const data = snapshot.val();
-    //     set(ref(dbRef, 'participant1/'+userID), user)
-    //     onDisconnect(con).remove();
-    // });
-    // const presenceRef = ref(userRef, "disconnectmessage");
-    // Write a string when this client loses connection
 
 
-    const myConnectionsRef = ref(dbRef, 'users');
-    console.log(myConnectionsRef)
-    
-    const participantRef = child(ref(dbRef),'participants')
-    set(participantRef , {name:"javad"})
-    console.log('user:',participantRef)
+    const participantRef = await child(ref(dbRef), 'participants')
+    console.log('user:', participantRef)
     // stores the timestamp of my last disconnect (the last time I was seen online)
     // const lastOnlineRef = ref(dbRef, 'users/lastOnline');
 
     // const connectedRef = ref(dbRef, '.info/connected');
-    onValue(participantRef, (snap) => {
-        console.log('snap: ',snap)
-        if (snap.val() === true) {
+    onValue(connectedRef, (snap) => {
+
+        console.log('snap: ', snap.val())
+
+        if (snap.val() !== true) {
+            console.log('connected')
             // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
             const performance = {
                 audio: false,
@@ -77,21 +67,52 @@ async function getUser() {
                 screen: true
             }
             const userRef = push(participantRef);
-            console.log('con:',userRef)
-            set(userRef, user)
+            set(userRef, { user, performance: performance })
+
             // When I disconnect, remove this device
-            console.log('user will removed!')
-            onDisconnect().remove(userRef);
+            console.log('user will removed!', onDisconnect(participantRef))
+
+            onDisconnect(userRef).remove();
 
             // Add this device to my connections list
             // this value could contain info about the device or a timestamp too
             // set(con, true);
-
             // When I disconnect, update the last time I was seen online
             // onDisconnect(lastOnlineRef).set(serverTimestamp());
+
         }
     });
 
+    console.log(child(ref(dbRef), 'participants'))
+    await get(ref(dbRef), 'participants').then((snapshot) => {
+        if (snapshot.exists()) {
+            console.log(snapshot.val());
+            console.log(snapshot.valueOf().size);
+
+            const userUI = document.querySelector('.users')
+
+            for (let i = 0; i < snapshot.valueOf().size + 1; i++) {
+                userUI.innerHTML +=
+                    `<div class="user">
+          <div class="card">
+              <video src="" class="video" autoplay playsInline></video>
+              <div class="muted">
+                  <i class="uil uil-microphone-slash"></i>
+                  <i class="uil uil-microphone"></i>
+              </div>
+
+              <div class="pic-user">A</div>
+              <div class="name">user1</div>
+          </div>
+      </div>`
+
+            }
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
 }
 getUser()
 // get id grom ulr
