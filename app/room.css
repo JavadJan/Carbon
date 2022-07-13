@@ -87,14 +87,8 @@ i{
     font-size: 1.3rem;
     
 }
-.muted .uil-microphone{
+.uil-microphone{
       display: none;  
-}
-.uil-microphone.active{
-    display: inline-block;
-}
-.uil-microphone-slash.active{
-    display: inline-block;
 }
 
 .name{

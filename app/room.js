@@ -1,9 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-import { getFirestore,collection, getDocs  } 
-from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
-import { getDatabase, ref, set } 
-from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
+import { getDatabase, ref, set, onDisconnect, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
@@ -19,46 +17,102 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db =getFirestore(app);
+const db = getFirestore(app);
 
 // ----------- get user from URL ----------
-const urlParams = new URLSearchParams(window.location.search);
-const userID = urlParams.get('id');
+// const urlParams = new URLSearchParams(window.location.search);
+// const userID = urlParams.get('id');
 
-// const dbRef = await getDatabse(app)
+const user = JSON.parse(localStorage.getItem('logged'));
+console.log(user)
+const userID = user.id
+console.log(userID)
 
 
 async function getUser() {
-    
+
     const roomUserCollectionRef = collection(db, 'users')
     const data = await getDocs(roomUserCollectionRef);
-    const users =await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     let user = users.find(u => u.id === userID)
+
+
+    console.log('add users:', userID, user.email, user.firstname)
+
+    const dbRef = getDatabase();
+    const connectedRef = ref(dbRef, 'participant')
+    console.log(connectedRef)
+    // // const participantRef = userRef.child('participants')
+
+    // set(ref(dbRef, 'participant/'), user)
+
+    // // const starCountRef = ref(db, 'posts/' + postId + '/starCount');
+    // onValue(connectedRef, (snapshot) => {
+    //     const con = push(connectedRef);
+    //     const data = snapshot.val();
+    //     set(ref(dbRef, 'participant1/'+userID), user)
+    //     onDisconnect(con).remove();
+    // });
+    // const presenceRef = ref(userRef, "disconnectmessage");
+    // Write a string when this client loses connection
+
+
+    const myConnectionsRef = ref(dbRef, 'users');
+    console.log(myConnectionsRef)
     
-    // console.log('add users:', userID,user.email,user.lastname)
-    
-    const dbRef =getDatabase();
-  set(ref(dbRef, 'users/' + userID), {username: user.lastname,email: user.email});
+    const participantRef = child(ref(dbRef),'participants')
+    set(participantRef , {name:"javad"})
+    console.log('user:',participantRef)
+    // stores the timestamp of my last disconnect (the last time I was seen online)
+    // const lastOnlineRef = ref(dbRef, 'users/lastOnline');
+
+    // const connectedRef = ref(dbRef, '.info/connected');
+    onValue(participantRef, (snap) => {
+        console.log('snap: ',snap)
+        if (snap.val() === true) {
+            // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
+            const performance = {
+                audio: false,
+                video: false,
+                screen: true
+            }
+            const userRef = push(participantRef);
+            console.log('con:',userRef)
+            set(userRef, user)
+            // When I disconnect, remove this device
+            console.log('user will removed!')
+            onDisconnect().remove(userRef);
+
+            // Add this device to my connections list
+            // this value could contain info about the device or a timestamp too
+            // set(con, true);
+
+            // When I disconnect, update the last time I was seen online
+            // onDisconnect(lastOnlineRef).set(serverTimestamp());
+        }
+    });
+
 }
 getUser()
 // get id grom ulr
 
-const micMuted =document.querySelectorAll('.uil-microphone-slash')
-console.log(micMuted)
+const micMuted = document.querySelectorAll('.uil-microphone-slash')
 
-micMuted.forEach((item)=>{
-    item.addEventListener('click',()=>{
-        item.classList.remove('active')
-        item.nextElementSibling.classList.add("active")
-    console.log(item)
-})})
+micMuted.forEach((item) => {
+    item.addEventListener('click', () => {
+        // item.classList.remove('active')
+        item.style.display = 'none'
+        item.nextElementSibling.style.display = "inline-block"
+        console.log(item)
+    })
+})
 
-const micOn =document.querySelectorAll('.uil-microphone')
-console.log(micOn)
-micOn.forEach((item)=>{
-    item.addEventListener('click',()=>{
-        item.classList.remove('active')
-        item.previousElementSibling.classList.add("active")
-    console.log(item)
-})})
+const micOn = document.querySelectorAll('.uil-microphone')
+micOn.forEach((item) => {
+    item.addEventListener('click', () => {
+        item.style.display = 'none'
+        item.previousElementSibling.style.display = "inline-block"
+        console.log(item)
+    })
+})
 

@@ -36,7 +36,7 @@ const login = async () => {
             if (users[i].password === pa) {
                 console.log(users, '5')
                 userId =await users[i].id
-                // localStorage.setItem('logged', JSON.stringify(users[i]))
+                localStorage.setItem('logged', JSON.stringify(users[i]))
                 let url =`http://127.0.0.1:5500/app/index.html?id=`+encodeURIComponent(users[i].id)
                 document.location.href = url
                 return
@@ -49,6 +49,7 @@ const login = async () => {
         } 
 
     }
+    alert('username or password is incorrect!')
 
     
 }
