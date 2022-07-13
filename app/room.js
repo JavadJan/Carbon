@@ -28,7 +28,7 @@ console.log(user)
 const userID = user.id
 console.log(userID)
 
-
+const dbRef = getDatabase();
 async function getUser() {
 
     // read user from fireatore
@@ -36,12 +36,10 @@ async function getUser() {
     const data = await getDocs(roomUserCollectionRef);
     const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     let user = users.find(u => u.id === userID)
-
-
     console.log('add users:', userID, user.email, user.firstname)
 
     // connect to database real time
-    const dbRef = getDatabase();
+
 
 
     const connectedRef = await ref(dbRef, 'participant')
@@ -83,39 +81,38 @@ async function getUser() {
         }
     });
 
-    console.log(child(ref(dbRef), 'participants'))
-    await get(ref(dbRef), 'participants').then((snapshot) => {
-        if (snapshot.exists()) {
-            console.log(snapshot.val());
-            console.log(snapshot.valueOf().size);
 
-            const userUI = document.querySelector('.users')
-
-            for (let i = 0; i < snapshot.valueOf().size + 1; i++) {
-                userUI.innerHTML +=
-                    `<div class="user">
-          <div class="card">
-              <video src="" class="video" autoplay playsInline></video>
-              <div class="muted">
-                  <i class="uil uil-microphone-slash"></i>
-                  <i class="uil uil-microphone"></i>
-              </div>
-
-              <div class="pic-user">A</div>
-              <div class="name">user1</div>
-          </div>
-      </div>`
-
-            }
-        } else {
-            console.log("No data available");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
 }
 getUser()
-// get id grom ulr
+
+get(ref(dbRef,'participants'), 'participants').then((snapshot) => {
+    if (snapshot.exists()) {
+        // console.log(snapshot.val());
+        console.log(snapshot.valueOf().size + 1);
+        const userUI = document.querySelector('.users')
+        for (let i = 0; i < snapshot.valueOf().size+1; i++) {
+            userUI.innerHTML +=
+                `<div class="user">
+                <div class="card">
+                    <video src="" class="video" autoplay playsInline></video>
+                    <div class="muted">
+                        <i class="uil uil-microphone-slash"></i>
+                        <i class="uil uil-microphone"></i>
+                    </div>
+                    <div class="pic-user">A</div>
+                    <div class="name">user1</div>
+                </div>
+            </div>`
+
+        }
+    } else {
+        console.log("No data available");
+    }
+}).catch((error) => {
+    console.error(error);
+});
+
+
 
 const micMuted = document.querySelectorAll('.uil-microphone-slash')
 
