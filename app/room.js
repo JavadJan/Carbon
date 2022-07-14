@@ -19,6 +19,27 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// -------------------->get connection peer-to-peer with server
+const server = {
+    iceServer: [
+        {
+            urls: ['stun:stun1.1.google.com:19302', 'stun:stun2.1.google.com:19302']
+        }
+    ]
+}
+
+let pc = new RTCPeerConnection(server);
+
+// your webcam
+let localStream = null;
+var audio = false
+var video = true
+// your friend's webcam
+let remoteStream = null;
+
+
+
+
 // ----------- get user from URL ----------
 // const urlParams = new URLSearchParams(window.location.search);
 // const userID = urlParams.get('id');
@@ -29,6 +50,93 @@ const userID = user.id
 console.log(userID)
 
 const dbRef = getDatabase();
+
+
+//  ----------> for click audio
+let micMuted = document.querySelectorAll('.uil-microphone-slash')
+micMuted.forEach((item) => {
+    item.addEventListener('click', () => {
+        item.style.display = 'none'
+        item.nextElementSibling.style.display = "inline-block"
+        audio = true
+        connection()
+        console.log(item)
+    })
+})
+
+let micOn = document.querySelectorAll('.uil-microphone')
+micOn.forEach((item) => {
+    item.addEventListener('click', () => {
+        item.style.display = 'none'
+        item.previousElementSibling.style.display = "inline-block"
+        console.log(item)
+        audio=false
+        video=true
+        connection()
+    })
+})
+// -----------> end click
+
+
+//  ----------> for click video
+let vidOf = document.querySelectorAll('.uil-video-slash')
+
+vidOf.forEach((item) => {
+    item.addEventListener('click', () => {
+        // item.classList.remove('active')
+        item.style.display = 'none'
+        item.nextElementSibling.style.display = "inline-block"
+        video = true
+        connection()
+        console.log(item)
+    })
+})
+
+let vidOn = document.querySelectorAll('.uil-video')
+vidOn.forEach((item) => {
+    item.addEventListener('click', () => {
+        item.style.display = 'none'
+        item.previousElementSibling.style.display = "inline-block"
+        console.log('unvideo')
+        video = false
+        audio=true
+        connection()
+    })
+})
+// -----------> end click
+
+// -----------> Timer 
+setInterval(myTimer, 1000);
+
+function myTimer() {
+    const d = new Date();
+    document.getElementById("timer").innerHTML = d.toLocaleTimeString();
+}
+document.getElementById('copy').addEventListener('click', function () {
+    copy()
+})
+
+
+function copy() {
+    /* Get the text field */
+    var copyText = document.getElementById("link");
+
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText.value);
+
+    /* Alert the copied text */
+    document.getElementById('copy').textContent = 'Copied'
+}
+
+
+
+
+
+
 async function getUser() {
 
     // read user from fireatore
@@ -81,56 +189,107 @@ async function getUser() {
         }
     });
 
+    get(ref(dbRef, 'participants'), 'participants').then((snapshot) => {
+        console.log(snapshot.valueOf().size + 1);
+        if (snapshot.exists()) {
+            // console.log(snapshot.val());
+            const userUI = document.querySelector('.users')
+            for (let i = 0; i < snapshot.valueOf().size; i++) {
+                userUI.innerHTML +=
+                    `<div class="user">
+                    <div class="card">
+                        <video src="#" id=${userID} class="video" autoplay playsInline></video>
+                        <div class="muted">
+                            <i class="uil uil-microphone-slash"></i>
+                            <i class="uil uil-microphone"></i>
+                        </div>
+                        <div class="pic-user">A</div>
+                        <div class="name">${user.firstname + ' ' + user.lastname}</div>
+                    </div>
+                </div>`
+
+            }
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+
+
+    connection()
 
 }
 getUser()
 
-get(ref(dbRef,'participants'), 'participants').then((snapshot) => {
-    if (snapshot.exists()) {
-        // console.log(snapshot.val());
-        console.log(snapshot.valueOf().size + 1);
-        const userUI = document.querySelector('.users')
-        for (let i = 0; i < snapshot.valueOf().size+1; i++) {
-            userUI.innerHTML +=
-                `<div class="user">
-                <div class="card">
-                    <video src="" class="video" autoplay playsInline></video>
-                    <div class="muted">
-                        <i class="uil uil-microphone-slash"></i>
-                        <i class="uil uil-microphone"></i>
-                    </div>
-                    <div class="pic-user">A</div>
-                    <div class="name">user1</div>
-                </div>
-            </div>`
+// ----------> for connection
+async function connection() {
+    // -----------> access to my camera 
 
-        }
-    } else {
-        console.log("No data available");
+    console.log('video:', video, 'audio:', audio)
+    localStream = await navigator.mediaDevices.getUserMedia({ video: video, audio: audio });
+
+    // ------------> get video from your friend
+    remoteStream = await new MediaStream()
+
+    // -------->push tracks from localstream to peer-to-peer connection
+    localStream.getTracks().forEach((track) => {
+        // push audio and video on peer-to-peer connection
+        pc.addTrack(track, localStream)
+    })
+
+    // --------> pull tracks from remote stream/ add to peer-to-peer connection
+    pc.ontrack = (e) => {
+        e.streams[0].getTracks().forEach(track => { remoteStream.addTrack(track) })
     }
-}).catch((error) => {
-    console.error(error);
-});
+
+    // pc.onicecandidate = async (event) => {
+    //     if (event.candidate) {
+    //         console.log('New ICE candidate:', event.candidate)
+    //     }
+    // }
+
+    // let offer = await pc.connection()
+    // await pc.setLocalDescription(offer)
+
+
+    document.getElementById(`host`).srcObject = localStream
+    console.log(document.getElementById(`${userID}`))
+    document.getElementById(`${userID}`).srcObject = localStream
+
+    document.querySelector('.pic-user').style.display = 'none'
+}
 
 
 
-const micMuted = document.querySelectorAll('.uil-microphone-slash')
 
-micMuted.forEach((item) => {
-    item.addEventListener('click', () => {
-        // item.classList.remove('active')
-        item.style.display = 'none'
-        item.nextElementSibling.style.display = "inline-block"
-        console.log(item)
-    })
+/* Get the element you want displayed in fullscreen mode (a video in this example): */
+let elem = document.getElementById('fullscreen').parentElement.childNodes[1]
+var fullscreen = document.getElementById("fullscreen");
+
+fullscreen.addEventListener('click', function () {
+    openFullscreen()
 })
 
-const micOn = document.querySelectorAll('.uil-microphone')
-micOn.forEach((item) => {
-    item.addEventListener('click', () => {
-        item.style.display = 'none'
-        item.previousElementSibling.style.display = "inline-block"
-        console.log(item)
-    })
-})
+function openFullscreen() {
+    console.log(elem)
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
