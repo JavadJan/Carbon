@@ -15,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-var userId='';
+var userId = '';
 //#region ==========  LOGIN AREA <--------------------------
 
 const btnogin = document.getElementById('btnLogin')
@@ -31,27 +31,27 @@ const login = async () => {
     var users = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     for (let i = 0; i < users.length; i++) {
         if (users[i].email === user) {
-            
+
             console.log(users[i].id)
             if (users[i].password === pa) {
                 console.log(users, '5')
-                userId =await users[i].id
+                userId = await users[i].id
                 localStorage.setItem('logged', JSON.stringify(users[i]))
-                let url =`http://127.0.0.1:5500/app/index.html?id=`+encodeURIComponent(users[i].id)
+                let url = `http://127.0.0.1:5501/app/index.html#`
                 document.location.href = url
                 return
-            }else {
+            } else {
                 alert('username or password is incorrect!')
-    
+
             }
 
 
-        } 
+        }
 
     }
     alert('username or password is incorrect!')
 
-    
+
 }
 
 export default userId;

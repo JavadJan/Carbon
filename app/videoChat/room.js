@@ -70,8 +70,8 @@ micOn.forEach((item) => {
         item.style.display = 'none'
         item.previousElementSibling.style.display = "inline-block"
         console.log(item)
-        audio=false
-        video=true
+        audio = false
+        video = true
         connection()
     })
 })
@@ -99,7 +99,7 @@ vidOn.forEach((item) => {
         item.previousElementSibling.style.display = "inline-block"
         console.log('unvideo')
         video = false
-        audio=true
+        audio = true
         connection()
     })
 })
@@ -117,20 +117,20 @@ vidOn.forEach((item) => {
 // })
 
 
-// function copy() {
-//     /* Get the text field */
-//     var copyText = document.getElementById("link");
+function copy() {
+    /* Get the text field */
+    var copyText = document.getElementById("link");
 
-//     /* Select the text field */
-//     copyText.select();
-//     copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /* For mobile devices */
 
-//     /* Copy the text inside the text field */
-//     navigator.clipboard.writeText(copyText.value);
+    /* Copy the text inside the text field */
+    navigator.clipboard.writeText(copyText.value);
 
-//     /* Alert the copied text */
-//     document.getElementById('copy').textContent = 'Copied'
-// }
+    /* Alert the copied text */
+    document.getElementById('copy').textContent = 'Copied'
+}
 
 
 
@@ -193,11 +193,11 @@ async function getUser() {
         console.log(snapshot.valueOf().size + 1);
         if (snapshot.exists()) {
             // console.log(snapshot.val());
-            const userUI = document.querySelector('.users')
+            const userUI = document.querySelector('.cardbox')
             for (let i = 0; i < snapshot.valueOf().size; i++) {
                 userUI.innerHTML +=
                     `<div class="card">
-                    <video src="" id="${userID}" class="video" autoplay playsInline></video>
+                    <video src="" id="host" class="video" autoplay playsInline></video>
                     <div class="muted">
                         <i class="uil uil-microphone-slash"></i>
                         <i class="uil uil-microphone"></i>

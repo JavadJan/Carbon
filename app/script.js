@@ -68,8 +68,8 @@ export { userID }
 display()
 // -------------------------- Room --------------------
 const rom = document.getElementById('room')
-rom.addEventListener('click', () =>{
-    let url = `http://127.0.0.1:5500/app/room.html?id=` + encodeURIComponent(userID)
+rom.addEventListener('click', () => {
+    let url = `http://127.0.0.1:5501/app/chat.html`
     document.location.href = url
 })
 
