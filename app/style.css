@@ -40,7 +40,7 @@ body{
 
 .navigation{
     position: fixed;
-    width: 300px;
+    width: 250px;
     background: var(--color-bg1);
     height: 100%;
     transition: 0.5s;
@@ -111,8 +111,8 @@ body{
 
 .main{
     position: absolute;
-    width: calc(100% - 300px);
-    left: 300px;
+    width: calc(100% - 250px);
+    left: 250px;
     min-height: 100vh;
     background: rgb(247, 245, 245);
     transition: var(--transition);
@@ -128,7 +128,7 @@ body{
 .main .topbar{
     position: fixed;
     top: 0;
-    width: calc(100% - 335px);
+    width: calc(100% - 280px);
     margin-left:15px; 
     background: #fff;
     height: 60px;
@@ -315,6 +315,7 @@ body{
 .details .currentDo table tbody tr:hover{
     background: #f0f1f1;
     transition: var(--transition);
+    
 }
 .details .currentDo table tr td{
     padding: 9px 5px;
@@ -344,7 +345,7 @@ body{
     background: #fff;
     color: #fff;
     border-radius: 4px;
-    font-weight: 300;
+    font-weight: 250;
     letter-spacing: 1px;
 }
 .Done {
@@ -359,23 +360,26 @@ body{
 .Crash  {
     background: rgb(247, 30, 30);
 }
-.details .profile{
+.details .free-courses{
     /* display: grid; */
     min-height: 530px;
     background: #fff;
     padding: 20px;
+    position: sticky;
+    top: 10rem;
 }
-.cardheader_profile{
+
+.cardheader_free-courses{
     margin-left: 0.9rem;
     display: flex;
     justify-content: space-between;
 }
-.cardheader_profile h3{
+.cardheader_free-courses h3{
     margin-top: 1rem;
     justify-content: center;
     align-items: center;
 }
-.cardheader_profile h3 a{
+.cardheader_free-courses h3 a{
     margin-top: 1rem;
     justify-content: center;
     align-items: center;
@@ -383,7 +387,7 @@ body{
     color: #998;
     font-size: 1.2rem;
 }
-.details .profile .imgbox {
+.details .free-courses .imgbox {
     position: relative;
     cursor: pointer;
     width: 60px;
@@ -393,7 +397,7 @@ body{
     /* border: none; */
     overflow: hidden;
 }
-.details .profile .imgbox img{
+.details .free-courses .imgbox img{
     position: absolute;
     top: 0;
     left: 0;
@@ -406,39 +410,99 @@ body{
     color: var(--color-black);
     text-decoration: none;
     transition: var(--transition);
+    position:sticky;
+    top: 4rem;
 }
+
+#free-course-content{
+    
+}
+.window_scroll {
+    background: var(--color-primary);
+    box-shadow: var(--color-primary);
+    
+    
+  }
 .free_course span{
     font-weight: 700;
 }
 .free_course:hover{
     color: var(--color-black);
 }
-.details .profile table tr{
+.details .free-courses table tr{
     border-bottom: 1px solid rgb(229, 226, 226);
 }
-.details .profile table tr td h4 span{
+.details .free-courses table tr td h4 span{
     font-size: 14px;
     color: #999;
 }
-.details .profile table tbody tr:hover
-,.details .profile table tr:hover td h4 span{
+.details .free-courses table tbody tr:hover
+,.details .free-courses table tr:hover td h4 span{
     background:#05a8c5;
     color: #fff;
     
 }
-.details .profile table tbody tr td{
+.details .free-courses table tbody tr td{
     border: none;
     padding: 7px 10px;
     
 }
 
-.details .profile table{
+.details .free-courses table{
     border-collapse: collapse;
     margin-top: 10px;
     width: 100%;
 
 }
-.details .profile table tbody tr td h4{
+
+/* ============ course part */
+
+.courses {
+    margin-top: 5px;
+  }
+  
+  .courses_container {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem;
+    position: relative;
+    width: 100%;
+    padding: 10px 2rem;
+    
+  }
+  .courses_container img{
+    object-fit: contain;
+    
+  }
+  
+  
+  .course {
+    background: var(--color-primary);
+    text-align: center;
+    border: 1px solid transparent;
+    transition: var(--transition);
+  }
+  .course h2{
+    font-size:18px ;
+  }
+  .course:hover {
+    background: transparent;
+    border-color: var(--color-primary);
+  }
+  
+  .course_info {
+    padding: 1rem;
+  }
+  .course_info p {
+    margin: 1.2rem 0 2rem;
+    font-size: 0.9rem;
+  }
+  .course_info a{
+    background: var(--color-danger);
+  }
+
+
+.details .free-courses table tbody tr td h4{
     font-size: 16px;
     font-weight:600 ;
     line-height:1.2em;
@@ -469,30 +533,30 @@ body{
 @media(max-width:992px)
 {
     .navigation{
-        left:-300px;
+        left:-250px;
     }
     .navigation.active{
         left: 0;
-        width: 300px;
+        width: 250px;
     }
     .main{
         left: 0;
         width: 100%;
     }
     .main.active{
-        width: calc(100%-300px);
-        left: 300px;
+        width: calc(100%-250px);
+        left: 250px;
     }
     .main.active .topbar{
-        width: calc(100%-300px);
-        left: 300px;
+        width: calc(100%-250px);
+        left: 250px;
     }
     .main.active .topbar .user{
         position: absolute;
         right: 270px;
     }
     .main.active .topbar .search{
-        width: calc(100%-300px);
+        width: calc(100%-250px);
         left: 30px;
         width: 350px;
     }

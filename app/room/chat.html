@@ -19,7 +19,7 @@
 
     <title>Document</title>
 
-
+    
 </head>
 
 <body>
@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="./videoChat/room.html">
                         <span class="icon">
                             <i class="uil uil-users-alt"></i>
                         </span>
@@ -127,9 +127,10 @@
                 </div>
 
                 <aside class="chatBox">
+                    <h4 id="contentMessage"></h4>
                     <div id="send">
-                        <input type="text" placeholder="send message">
-                        <button><i class="uil uil-message"></i></button>
+                        <input id="textMessage" type="text" placeholder="send message">
+                        <button id="sendMessage"><i class="uil uil-message"></i></button>
                     </div>
                 </aside>    
 
@@ -137,63 +138,7 @@
         </div>
     </div>
 
-    <!-- ---------- Start Modal for Add -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add TODO</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="register_user_right">
-                        <div class="form_register">
-                            <input type="text" id="title" placeholder="Tile">
-                            <input type="date" id="date" placeholder="date">
-                            <input data-register type="text" placeholder="description" id="description">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save" data-bs-dismiss="modal"
-                        onclick="addTodos()">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ==================> End Model for Add <================ -->
-
-    <!-- ============================> Start model for edit <=================-->
-    <div>
-        <div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" id="modal-edit">
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- =====================> End Modal for Edit <============================== -->
-
-    <!-- ===============> Room Modal <============= -->
-    <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="roomModalLabel">Add TODO</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <script type="module" src="./room.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

@@ -54,7 +54,7 @@
                 </li>
                 <li>
                     <!-- data-bs-toggle="modal" data-bs-target="#roomModal" -->
-                    <a id="room" href="#" >
+                    <a id="room" href="#">
                         <span class="icon">
                             <ion-icon name="chatbubble-ellipses"></ion-icon>
                         </span>
@@ -172,14 +172,70 @@
             <div class="details">
                 <div class="currentDo" id="currentDo">
                     <div class="headers">
-                        <h2 id="currentHeader">Header</h2>
+                        <h2 id="currentHeader" style="margin-left: 2rem;">My Course</h2>
                         <div>
                             <a href="" id="addTodo" class="btn" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal">Add ToDo</a>
-                            <a href="" class="btn">View All</a>
+                            <a href="" class="btn" style="margin-right: 2rem;">View All</a>
                         </div>
                     </div>
+                    <!-- to course part -->
+                    <section class="courses" id="course-group">
+                        <div class="container courses_container">
+                            <article class="course">
+                                <div class="course_img">
+                                    <img src="https://images.unsplash.com/photo-1523289333742-be1143f6b766?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8Y291cnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60"
+                                        alt="">
+                                </div>
+                                <div class="course_info">
+                                    <h4>Machine Learning</h4>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error modi illo vitae
+                                        quaerat? Praesentium voluptate eum labore quos repudiandae exercitationem</p>
+                                    <a href="course.html" class="btn btn-primary">Learn More</a>
+                                </div>
+                            </article>
+                            <article class="course">
+                                <div class="course_img">
+                                    <img src="https://images.unsplash.com/photo-1523289333742-be1143f6b766?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8Y291cnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60"
+                                        alt="">
+                                </div>
+                                <div class="course_info">
+                                    <h4>Java Script</h4>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error modi illo vitae
+                                        quaerat? Praesentium voluptate eum labore quos repudiandae exercitationem</p>
+                                    <a href="course.html" class="btn btn-primary">Learn More</a>
+                                </div>
+                            </article>
+                            <article class="course">
+                                <div class="course_img">
+                                    <img src="https://images.unsplash.com/photo-1523289333742-be1143f6b766?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8Y291cnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60"
+                                        alt="">
+                                </div>
+                                <div class="course_info">
+                                    <h4>Java Script</h4>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error modi illo vitae
+                                        quaerat? Praesentium voluptate eum labore quos repudiandae exercitationem</p>
+                                    <a href="course.html" class="btn btn-primary">Learn More</a>
+                                </div>
+                            </article>
+                            <article class="course">
+                                <div class="course_img">
+                                    <img src="https://images.unsplash.com/photo-1523289333742-be1143f6b766?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8Y291cnNlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=400&q=60"
+                                        alt="">
+                                </div>
+                                <div class="course_info">
+                                    <h4>Java Script</h4>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error modi illo vitae
+                                        quaerat? Praesentium voluptate eum labore quos repudiandae exercitationem</p>
+                                    <a href="course.html" class="btn btn-primary">Learn More</a>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
 
+
+
+                    <!-- to do part -->
                     <table id="todos">
                         <thead>
                             <tr>
@@ -195,8 +251,8 @@
                     </table>
 
                 </div>
-                <div class="profile">
-                    <div class="cardheader_profile">
+                <div class="free-courses" id="free-course-content">
+                    <div class="cardheader_free-courses">
                         <h3>Free Course</h3>
                     </div>
                     <hr>
@@ -270,7 +326,9 @@
                         </tbody>
                     </table>
                 </div>
-                <table></table>
+                <!-- <table id="free-course-content">
+
+                </table> -->
             </div>
         </div>
     </div>

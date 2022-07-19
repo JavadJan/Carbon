@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs,addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
 import { getDatabase, ref, set, onDisconnect, get, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
@@ -44,66 +44,15 @@ let remoteStream = null;
 // const urlParams = new URLSearchParams(window.location.search);
 // const userID = urlParams.get('id');
 
-const user = JSON.parse(localStorage.getItem('logged'));
-console.log(user)
-const userID = user.id
-console.log(userID)
+const userLogged = JSON.parse(localStorage.getItem('logged'));
+console.log(' logged')
+const userID = userLogged.id
+console.log('this userId is logged' ,userID)
 
 const dbRef = getDatabase();
 
 
-//  ----------> for click audio
-let micMuted = document.querySelectorAll('.uil-microphone-slash')
-micMuted.forEach((item) => {
-    item.addEventListener('click', () => {
-        item.style.display = 'none'
-        item.nextElementSibling.style.display = "inline-block"
-        audio = true
-        connection()
-        console.log(item)
-    })
-})
 
-let micOn = document.querySelectorAll('.uil-microphone')
-micOn.forEach((item) => {
-    item.addEventListener('click', () => {
-        item.style.display = 'none'
-        item.previousElementSibling.style.display = "inline-block"
-        console.log(item)
-        audio = false
-        video = true
-        connection()
-    })
-})
-// -----------> end click
-
-
-//  ----------> for click video
-let vidOf = document.querySelectorAll('.uil-video-slash')
-
-vidOf.forEach((item) => {
-    item.addEventListener('click', () => {
-        // item.classList.remove('active')
-        item.style.display = 'none'
-        item.nextElementSibling.style.display = "inline-block"
-        video = true
-        connection()
-        console.log(item)
-    })
-})
-
-let vidOn = document.querySelectorAll('.uil-video')
-vidOn.forEach((item) => {
-    item.addEventListener('click', () => {
-        item.style.display = 'none'
-        item.previousElementSibling.style.display = "inline-block"
-        console.log('unvideo')
-        video = false
-        audio = true
-        connection()
-    })
-})
-// -----------> end click
 
 // // -----------> Timer 
 // setInterval(myTimer, 1000);
@@ -117,35 +66,37 @@ vidOn.forEach((item) => {
 // })
 
 
-function copy() {
-    /* Get the text field */
-    var copyText = document.getElementById("link");
+// function copy() {
+//     /* Get the text field */
+//     var copyText = document.getElementById("link");
 
-    /* Select the text field */
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+//     /* Select the text field */
+//     copyText.select();
+//     copyText.setSelectionRange(0, 99999); /* For mobile devices */
 
-    /* Copy the text inside the text field */
-    navigator.clipboard.writeText(copyText.value);
+//     /* Copy the text inside the text field */
+//     navigator.clipboard.writeText(copyText.value);
 
-    /* Alert the copied text */
-    document.getElementById('copy').textContent = 'Copied'
-}
-
-
+//     /* Alert the copied text */
+//     document.getElementById('copy').textContent = 'Copied'
+// }
 
 
 
 
+
+let user ;
 async function getUser() {
 
     // read user from fireatore
     const roomUserCollectionRef = collection(db, 'users')
     const data = await getDocs(roomUserCollectionRef);
     const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-    let user = users.find(u => u.id === userID)
+    user = users.find(u => u.id === userID)
     console.log('add users:', userID, user.email, user.firstname)
 
+
+    document.getElementById('us').textContent=user.firstname + ' ' + user.lastname
     // connect to database real time
 
 
@@ -189,24 +140,25 @@ async function getUser() {
         }
     });
 
+
     get(ref(dbRef, 'participants'), 'participants').then((snapshot) => {
-        console.log(snapshot.valueOf().size + 1);
+        console.log('size: ',snapshot.valueOf().size + 1);
         if (snapshot.exists()) {
             // console.log(snapshot.val());
             const userUI = document.querySelector('.cardbox')
-            for (let i = 0; i < snapshot.valueOf().size; i++) {
+            for (let i = 0; i < snapshot.valueOf().size+1; i++) {
                 userUI.innerHTML +=
                     `<div class="card">
-                    <video src="" id="host" class="video" autoplay playsInline></video>
+                    <video src="" id="${userID}" class="video" autoplay playsInline></video>
                     <div class="muted">
                         <i class="uil uil-microphone-slash"></i>
                         <i class="uil uil-microphone"></i>
                     </div>
                     <div id="fullscreen"><i class="uil uil-expand-arrows"></i></div>
-                    <div class="pic-user">A</div>
+                    
                     <div class="name">${user.firstname + ' ' + user.lastname}</div>
                 </div>`
-
+{/* <div class="pic-user">A</div> */}
             }
         } else {
             console.log("No data available");
@@ -220,6 +172,31 @@ async function getUser() {
 
 }
 getUser()
+
+//send message in chat
+let sendMessage = document.getElementById('sendMessage');
+sendMessage.addEventListener('click', function(){startMessage()})
+
+const startMessage = async()=>{
+
+    const roomUserCollectionRef = collection(db, 'users')
+    const data = await getDocs(roomUserCollectionRef);
+    const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+    user = users.find(u => u.id === userID)
+
+
+    let message = document.getElementById('textMessage').value
+    console.log(message, user.id)
+
+    set(push(child(ref(dbRef , 'chats') , 'user'+user.id),{id:user.id,name:user.firstname , lastname:user.lastname , text:message}))
+
+    document.getElementById('contentMessage').textContent=
+    
+    
+    
+}
+
+
 
 // ----------> for connection
 async function connection() {
@@ -254,7 +231,7 @@ async function connection() {
 
     document.getElementById(`host`).srcObject = localStream
     console.log(document.getElementById(`${userID}`))
-    document.getElementById(`${userID}`).srcObject = localStream
+    document.getElementById(`${userID}`).srcObject = await localStream
 
     document.querySelector('.pic-user').style.display = 'none'
 }
@@ -281,6 +258,60 @@ function openFullscreen() {
     }
 }
 
+
+
+//  ----------> for click audio
+let micMuted = document.querySelectorAll('.uil-microphone-slash')
+micMuted.forEach((item) => {
+    item.addEventListener('click', () => {
+        item.style.display = 'none'
+        item.nextElementSibling.style.display = "inline-block"
+        audio = true
+        connection()
+        console.log(item)
+    })
+})
+
+let micOn = document.querySelectorAll('.uil-microphone')
+micOn.forEach((item) => {
+    item.addEventListener('click', () => {
+        item.style.display = 'none'
+        item.previousElementSibling.style.display = "inline-block"
+        console.log(item)
+        audio=false
+        video=true
+        connection()
+    })
+})
+// -----------> end click
+
+
+//  ----------> for click video
+let vidOf = document.querySelectorAll('.uil-video-slash')
+
+vidOf.forEach((item) => {
+    item.addEventListener('click', () => {
+        // item.classList.remove('active')
+        item.style.display = 'none'
+        item.nextElementSibling.style.display = "inline-block"
+        video = true
+        connection()
+        console.log(item)
+    })
+})
+
+let vidOn = document.querySelectorAll('.uil-video')
+vidOn.forEach((item) => {
+    item.addEventListener('click', () => {
+        item.style.display = 'none'
+        item.previousElementSibling.style.display = "inline-block"
+        console.log('unvideo')
+        video = false
+        audio=true
+        connection()
+    })
+})
+// -----------> end click
 
 
 

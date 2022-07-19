@@ -74,7 +74,8 @@ const CreateAccount = async () => {
         }
     }
 
-    // here add to database
+    // write to database/firestore
+    // const userCollectionRef = collection(db , 'users')
     await addDoc(userCollectionRef, { firstname: name, lastname: lastname, email: e, password: p, status: 'logout'})
     console.log('added!')
 

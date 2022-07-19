@@ -14,12 +14,16 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const userID = urlParams.get(`id`)
-console.log(userID);
+// const queryString = window.location.search;
+// const urlParams = new URLSearchParams(queryString);
+// const userID = urlParams.get(`id`)
+// console.log(userID);
 
 
+window.addEventListener('scroll', () => {
+    document.querySelector('#free-course-content').classList.toggle('window_scroll', window.scrollY < 0)
+    console.log('scrolled', scrollY, window.scrollY)
+})
 
 
 var index = 0;
@@ -54,27 +58,36 @@ function logout() {
 
 async function display() {
 
+    const user = JSON.parse(localStorage.getItem('logged'));
+    console.log(user)
+    const userID = user.id
+    console.log(userID)
+
     const userCollectionRef = collection(db, 'users')
     const data = await getDocs(userCollectionRef)
     const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     let u = users.find(u => u.id === userID)
     console.log(u)
-    // document.getElementById('us').innerText = u.lastname + ' ' + u.firstname
-
-
+    document.getElementById('us').innerText = u.lastname + ' ' + u.firstname
 
 }
-export { userID }
+
 display()
 // -------------------------- Room --------------------
 const rom = document.getElementById('room')
 rom.addEventListener('click', () => {
-    let url = `http://127.0.0.1:5501/app/chat.html`
+    let url = `http://127.0.0.1:5501/app/room/chat.html`
     document.location.href = url
 })
 
 
+// ---------------------------- courses-----------
+document.getElementById('courses').addEventListener('click', () => {
 
+    document.getElementById('todos').style.display = 'none'
+    document.getElementById('addTodo').style.display = 'none'
+    document.getElementById('course-group').style.display = 'inline-block'
+})
 
 
 
@@ -89,6 +102,7 @@ const displayTodo = document.getElementById('todoList')
 displayTodo.addEventListener('click', function () { displayTodoList() })
 
 async function displayTodoList() {
+    document.getElementById('course-group').style.display = 'none'
     console.log('clicked todo')
     document.getElementById('todos').style.display = 'inline-block'
     document.getElementById('addTodo').style.display = 'inline-block'
@@ -97,15 +111,17 @@ async function displayTodoList() {
 
     console.log(toDos.length)
 
+    //read from firebase
     const todoCollectionRef = await collection(db, 'toDos')
     const data = await getDocs(todoCollectionRef)
     const todos = await data.docs.map((doc) => ({
         ...doc.data(), id: doc.id
     }))
+
     console.log(todos)
     for (let i = 0; i < todos.length; i++) {
 
-        document.getElementById('listTodos').innerHTML +=
+        document.getElementById('listTodos').innerHTML =
             `<tr data-cell>
         <td>${todos[i].title}</td>
         <td>${todos[i].date.toDate()}</td>
