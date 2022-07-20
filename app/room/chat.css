@@ -36,6 +36,7 @@ body{
 .container-khodam{
     position: relative;
     width: 100%;
+    height: 100vh;
 }
 
 .navigation{
@@ -198,7 +199,7 @@ body{
     height: 100%;
     object-fit: cover;
 }
-.popular{
+.videoBox{
     position: relative;
     margin-top: 3rem;
     height: fit-content;
@@ -373,7 +374,40 @@ video{
     height: 2.2rem;
     padding-left: 7px;
 }
+.footer{
+    height: 6rem;
+    position: fixed;
+    bottom: 0;
+    width: 65.5%;
+    margin: 0;
+    background: var(--color-bg);
+}
+.footer .items{
+    margin-bottom: 2rem;
+    width: 50%;
+    margin: 10px auto;
+    box-shadow: #1f2641 #1f2641 #054fc5 inset rgba(0, 0, 0, 0.554);
+    border: 2px solid green;
+}
 
+.footer .items ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+}
+.footer .items ul li{
+    width: 3rem;
+    list-style-type: none;
+    text-align: center;
+    font-size: 1.5rem;
+    
+}
+.footer .items ul li i{
+    color: rgb(255, 255, 255);
+    font-weight: small;
+}
 @media(max-width:992px)
 {
     .navigation{
