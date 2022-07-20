@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-import { getFirestore, collection, getDocs,addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
 import { getDatabase, ref, set, onDisconnect, get, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
@@ -47,7 +47,7 @@ let remoteStream = null;
 const userLogged = JSON.parse(localStorage.getItem('logged'));
 console.log(' logged')
 const userID = userLogged.id
-console.log('this userId is logged' ,userID)
+console.log('this userId is logged', userID)
 
 const dbRef = getDatabase();
 
@@ -85,7 +85,7 @@ const dbRef = getDatabase();
 
 
 
-let user ;
+let user;
 async function getUser() {
 
     // read user from fireatore
@@ -96,7 +96,7 @@ async function getUser() {
     console.log('add users:', userID, user.email, user.firstname)
 
 
-    document.getElementById('us').textContent=user.firstname + ' ' + user.lastname
+    document.getElementById('us').textContent = user.firstname + ' ' + user.lastname
     // connect to database real time
 
 
@@ -112,9 +112,7 @@ async function getUser() {
 
     // const connectedRef = ref(dbRef, '.info/connected');
     onValue(connectedRef, (snap) => {
-
         console.log('snap: ', snap.val())
-
         if (snap.val() !== true) {
             console.log('connected')
             // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
@@ -129,6 +127,7 @@ async function getUser() {
             // When I disconnect, remove this device
             console.log('user will removed!', onDisconnect(participantRef))
 
+
             onDisconnect(userRef).remove();
 
             // Add this device to my connections list
@@ -141,30 +140,30 @@ async function getUser() {
     });
 
 
-    get(ref(dbRef, 'participants'), 'participants').then((snapshot) => {
-        console.log('size: ',snapshot.valueOf().size + 1);
-        if (snapshot.exists()) {
-            // console.log(snapshot.val());
-            const userUI = document.querySelector('.cardbox')
-            for (let i = 0; i < snapshot.valueOf().size+1; i++) {
-                userUI.innerHTML +=
-                    `<div class="card">
-                    <video src="" id="${userID}" class="video" autoplay playsInline></video>
-                    <div class="muted">
-                        <i class="uil uil-microphone-slash"></i>
-                        <i class="uil uil-microphone"></i>
-                    </div>
-                    <div id="fullscreen"><i class="uil uil-expand-arrows"></i></div>
-                    
-                    <div class="name">${user.firstname + ' ' + user.lastname}</div>
-                </div>`
-{/* <div class="pic-user">A</div> */}
-            }
-        } else {
-            console.log("No data available");
+
+
+    const userUI = document.querySelector('.cardbox')
+    onValue(ref(dbRef, 'participants'), (snapshot) => {
+        const data = snapshot.val();
+        let count = snapshot.valueOf().size + 1
+        console.log('size', count)
+        // const userUI = document.querySelector('.cardbox')
+        userUI.innerHTML = ''
+        for (const user of Object.values(data)) {
+            console.log(user.user.firstname)
+            userUI.innerHTML += `<div class="card">
+                            <video src="" id="${user.user.id + snapshot.valueOf().size + 1}" class="video" autoplay playsInline></video>
+                            <div class="muted">
+                                <i class="uil uil-microphone-slash"></i>
+                                <i class="uil uil-microphone"></i>
+                            </div>
+                            <div id="fullscreen"><i class="uil uil-expand-arrows"></i></div>
+                            
+                            <div class="name">${user.user.firstname + ' ' + user.user.lastname}</div>
+                        </div>`
         }
-    }).catch((error) => {
-        console.error(error);
+
+        // updateStarCount('postElement', data);
     });
 
 
@@ -173,28 +172,84 @@ async function getUser() {
 }
 getUser()
 
-//send message in chat
-let sendMessage = document.getElementById('sendMessage');
-sendMessage.addEventListener('click', function(){startMessage()})
 
-const startMessage = async()=>{
+
+
+//send message in chat
+let message;
+// function getText(params) {
+//     message =
+//         console.log(message)
+// }
+// getText()
+setInterval(() => {
+    message = document.getElementById('textMessage').value;
+}, document.getElementById('textMessage').value);
+
+let sendMessage = document.getElementById('sendMessage');
+sendMessage.addEventListener('click', function () { startMessage() })
+
+const startMessage = async () => {
 
     const roomUserCollectionRef = collection(db, 'users')
     const data = await getDocs(roomUserCollectionRef);
     const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     user = users.find(u => u.id === userID)
 
+    //write
+    // let messageRef =
+    if (message !== '') {
+        set(push(ref(dbRef, 'chats'), 'user' + user.id), { id: user.id, name: user.firstname, lastname: user.lastname, text: message })
+    }
+    document.getElementById('textMessage').value = '';
+    //read once
+    // get(child(ref(dbRef, 'chats'), 'user' + user.id))
+    //     .then((snapshot) => {
+    //         if (snapshot.exists()) {
+    //             for (let i = 0; i < snapshot.valueOf().size + 1; i++) {
+    //                 text.textContent += `${}`
+    //             }
+    //         }
+    //     })
 
-    let message = document.getElementById('textMessage').value
-    console.log(message, user.id)
+    let text = document.getElementById('contentMessage')
+    // read for event 
+    const txtRef = ref(dbRef, 'chats');
+    if (message !== '') {
+        onValue(txtRef, (snapshot) => {
+            const data = snapshot.val();
+            // let textMessage = Object.values(data).map(txt => txt.text)
+            console.log('data from chat', Object.values(data).map(txt => { txt.text; txt.name }), textMessage)
+            for (const i in Object.values(data)) {
+                if (i==0) {
+                    console.log('sender:',i, Object.values(data)[i].name)
+                    text.innerHTML += `<h6>${Object.values(data)[i].name}</h6>
+                    <span>${Object.values(data)[i].text}</span>
+                    `
+                }
+                else{
+                    console.log('sender:',i, Object.values(data)[i].name,Object.values(data)[i-1].name)
+                    text.innerHTML += `<span>${Object.values(data)[i].text}</span>`
 
-    set(push(child(ref(dbRef , 'chats') , 'user'+user.id),{id:user.id,name:user.firstname , lastname:user.lastname , text:message}))
+                }
 
-    document.getElementById('contentMessage').textContent=
-    
-    
-    
+                // else {
+                //     text.innerHTML += `<h6>${Object.values(data)[i].name}</h6>
+                //                 <span>${Object.values(data)[i].text}</span>`
+                // }
+            }
+
+            // updateStarCount('postElement', data);
+        });
+        message = ''
+    }
+
 }
+
+
+
+
+
 
 
 
@@ -229,23 +284,23 @@ async function connection() {
     // await pc.setLocalDescription(offer)
 
 
-    document.getElementById(`host`).srcObject = localStream
-    console.log(document.getElementById(`${userID}`))
-    document.getElementById(`${userID}`).srcObject = await localStream
+    document.getElementsByTagName('video').srcObject = localStream
+    console.log('here is video:', document.getElementsByTagName(`video`))
+    document.getElementsByTagName('video').srcObject = localStream
 
-    document.querySelector('.pic-user').style.display = 'none'
+    // document.querySelector('.pic-user').style.display = 'none'
 }
 
 
 
 
 /* Get the element you want displayed in fullscreen mode (a video in this example): */
-let elem = document.getElementById('fullscreen').parentElement.childNodes[1]
-var fullscreen = document.getElementById("fullscreen");
+// let elem = document.getElementById('fullscreen').parentElement.childNodes[1]
+// var fullscreen = document.getElementById("fullscreen");
 
-fullscreen.addEventListener('click', function () {
-    openFullscreen()
-})
+// fullscreen.addEventListener('click', function () {
+//     openFullscreen()
+// })
 
 function openFullscreen() {
     console.log(elem)
@@ -278,8 +333,8 @@ micOn.forEach((item) => {
         item.style.display = 'none'
         item.previousElementSibling.style.display = "inline-block"
         console.log(item)
-        audio=false
-        video=true
+        audio = false
+        video = true
         connection()
     })
 })
@@ -307,7 +362,7 @@ vidOn.forEach((item) => {
         item.previousElementSibling.style.display = "inline-block"
         console.log('unvideo')
         video = false
-        audio=true
+        audio = true
         connection()
     })
 })
