@@ -213,6 +213,7 @@ const startMessage = async () => {
     //     })
 
     let text = document.getElementById('contentMessage')
+
     // read for event 
     const txtRef = ref(dbRef, 'chats');
     if (message !== '') {
@@ -286,6 +287,7 @@ async function connection() {
 
     document.getElementsByTagName('video').srcObject = localStream
     console.log('here is video:', document.getElementsByTagName(`video`))
+    
     document.getElementsByTagName('video').srcObject = localStream
 
     // document.querySelector('.pic-user').style.display = 'none'
@@ -369,6 +371,45 @@ vidOn.forEach((item) => {
 // -----------> end click
 
 
+//close chat
+document.querySelector('.close').addEventListener('click',()=>{
+    document.querySelector('.chatBox').style.display='none'
+    document.querySelector('.videoBox').classList.remove('active')
+})
+
+document.getElementById('openChat').addEventListener('click',()=>{
+    document.querySelector('.chatBox').style.display='inline-block';
+    document.querySelector('.videoBox').classList.add('active')
+    const txt = document.getElementById('contentMessage')
+    txt.innerHTML=''
+    console.log(txt)
+    get(ref(dbRef, 'chats'))
+        .then((snapshot) => {
+            if (snapshot.exists()) {
+                for (let i = 0; i < snapshot.valueOf().size + 1; i++) {
+                    if (i==0) {
+                        console.log('sender:',Object.values(snapshot.val())[i], Object.values(snapshot.val())[i].name)
+
+                        txt.innerHTML += `<h6>${Object.values(snapshot.val())[i].name}</h6>
+                        <span>${Object.values(snapshot.val())[i].text}</span>
+                        `
+                    }
+                    else{
+                        console.log('sender:',Object.values(snapshot.val())[i], Object.values(snapshot.val())[i].name,Object.values(snapshot.val())[i-1].name)
+
+                        txt.innerHTML += `<span>${Object.values(snapshot.val())[i].text}</span>`
+    
+                    }
+
+
+
+
+                    
+                }
+            }
+     
+      })
+})
 
 
 

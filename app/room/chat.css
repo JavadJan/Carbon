@@ -204,15 +204,23 @@ body{
     margin-top: 3rem;
     height: fit-content;
     display: grid;
-    grid-template-columns: 75% 25%; 
+    /* grid-template-columns: 75% 25%;  */
+
+}
+.videoBox.active{
+    grid-template-columns: 79% 21%;
 }
 .chatBox{
     margin-top: 1rem;
     border: 1px solid rgba(128, 128, 128, 0.759);
     background: white;
-    /* padding: 5px; */
     margin-right: 10px;
     position: relative;
+    width: 97%;
+    height: 79vh;
+    z-index: 9999;
+    overflow-y: scroll;
+    display: none;
     
 }
 #send{
@@ -268,6 +276,12 @@ body{
 
 }
 
+.close{
+    outline: none;
+    border: none;
+    padding: 5px;
+    background: transparent;
+}
 
 
 
@@ -285,7 +299,6 @@ body{
 .cardbox{
     position: relative;
     width: 100%;
-    height: 91vh;
     padding: 20px;
     display: grid;
     grid-gap: 20px;
@@ -378,16 +391,19 @@ video{
     height: 6rem;
     position: fixed;
     bottom: 0;
-    width: 65.5%;
+    width: 100%;
+    /* width: 65.5%; */
     margin: 0;
     background: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .footer .items{
     margin-bottom: 2rem;
     width: 50%;
     margin: 10px auto;
     box-shadow: #1f2641 #1f2641 #054fc5 inset rgba(0, 0, 0, 0.554);
-    border: 2px solid green;
 }
 
 .footer .items ul{
@@ -398,14 +414,20 @@ video{
 
 }
 .footer .items ul li{
-    width: 3rem;
+    background-color: rgb(65, 64, 64);
+    border-radius: 50%;
+    width: 45px;
     list-style-type: none;
-    text-align: center;
     font-size: 1.5rem;
-    
+    margin-top: 5px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 .footer .items ul li i{
-    color: rgb(255, 255, 255);
+    color: white;
     font-weight: small;
 }
 @media(max-width:992px)
