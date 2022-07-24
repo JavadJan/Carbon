@@ -146,13 +146,14 @@ async function getUser() {
     onValue(ref(dbRef, 'participants'), (snapshot) => {
         const data = snapshot.val();
         let count = snapshot.valueOf().size + 1
-        console.log('size', count)
+        console.log('size', count, Object.values(data), Object.values(data)[0])
         // const userUI = document.querySelector('.cardbox')
         userUI.innerHTML = ''
+        let i = 0
         for (const user of Object.values(data)) {
-            console.log(user.user.firstname)
+            console.log('---------------', user.user.firstname, Object.values(data)[0])
             userUI.innerHTML += `<div class="card">
-                            <video src="" id="${user.user.id + snapshot.valueOf().size + 1}" class="video" autoplay playsInline></video>
+                            <video src="" id="${user.user.id + i}" class="video" autoplay playsInline></video>
                             <div class="muted">
                                 <i class="uil uil-microphone-slash"></i>
                                 <i class="uil uil-microphone"></i>
@@ -161,16 +162,25 @@ async function getUser() {
                             
                             <div class="name">${user.user.firstname + ' ' + user.user.lastname}</div>
                         </div>`
+
+            i++;
+
         }
 
         // updateStarCount('postElement', data);
     });
-
+    document.querySelectorAll('video')
+    console.log('all video element:', document.querySelectorAll('video'))
 
     connection()
 
+    //transfer camera on video
+
+
 }
 getUser()
+let cells = document.querySelectorAll('.video')
+console.log("cells:", cells)
 
 
 
@@ -197,7 +207,7 @@ const startMessage = async () => {
     user = users.find(u => u.id === userID)
 
     //write
-    // let messageRef =
+    // if input was not empty
     if (message !== '') {
         set(push(ref(dbRef, 'chats'), 'user' + user.id), { id: user.id, name: user.firstname, lastname: user.lastname, text: message })
     }
@@ -212,24 +222,27 @@ const startMessage = async () => {
     //         }
     //     })
 
-    let text = document.getElementById('contentMessage')
 
+    let text = document.getElementById('contentMessage')
     // read for event 
     const txtRef = ref(dbRef, 'chats');
     if (message !== '') {
+        text.innerHTML = ''
+        //bug
+        console.log('buggggggg!')
         onValue(txtRef, (snapshot) => {
             const data = snapshot.val();
             // let textMessage = Object.values(data).map(txt => txt.text)
             console.log('data from chat', Object.values(data).map(txt => { txt.text; txt.name }), textMessage)
             for (const i in Object.values(data)) {
-                if (i==0) {
-                    console.log('sender:',i, Object.values(data)[i].name)
+                if (i == 0) {
+                    console.log('sender:', i, Object.values(data)[i].name)
                     text.innerHTML += `<h6>${Object.values(data)[i].name}</h6>
                     <span>${Object.values(data)[i].text}</span>
                     `
                 }
-                else{
-                    console.log('sender:',i, Object.values(data)[i].name,Object.values(data)[i-1].name)
+                else {
+                    console.log('sender:', i, Object.values(data)[i].name, Object.values(data)[i - 1].name)
                     text.innerHTML += `<span>${Object.values(data)[i].text}</span>`
 
                 }
@@ -256,13 +269,15 @@ const startMessage = async () => {
 
 // ----------> for connection
 async function connection() {
+
+
     // -----------> access to my camera 
 
-    console.log('video:', video, 'audio:', audio)
+    // console.log('video:', video, 'audio:', audio)
     localStream = await navigator.mediaDevices.getUserMedia({ video: video, audio: audio });
 
     // ------------> get video from your friend
-    remoteStream = await new MediaStream()
+    remoteStream = new MediaStream()
 
     // -------->push tracks from localstream to peer-to-peer connection
     localStream.getTracks().forEach((track) => {
@@ -283,14 +298,21 @@ async function connection() {
 
     // let offer = await pc.connection()
     // await pc.setLocalDescription(offer)
+    // document.querySelectorAll()
 
 
-    document.getElementsByTagName('video').srcObject = localStream
-    console.log('here is video:', document.getElementsByTagName(`video`))
-    
-    document.getElementsByTagName('video').srcObject = localStream
+    if (document.querySelectorAll('video')) {
+        console.log('=========', document.querySelectorAll('video')[0].id)
+        document.getElementById(document.querySelectorAll('video')[0].id).srcObject = localStream
+        // console.log('here is video:', cell.id, document.getElementsByTagName(cell.id))
 
-    // document.querySelector('.pic-user').style.display = 'none'
+        // console.log('here is video:',cell.id+1, document.getElementsByTagName(cell.id+1))
+        document.getElementById(document.querySelectorAll('video')[1].id).srcObject = localStream
+    }
+
+
+
+
 }
 
 
@@ -304,16 +326,16 @@ async function connection() {
 //     openFullscreen()
 // })
 
-function openFullscreen() {
-    console.log(elem)
-    if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
-    }
-}
+// function openFullscreen() {
+//     console.log(elem)
+//     if (elem.requestFullscreen) {
+//         elem.requestFullscreen();
+//     } else if (elem.webkitRequestFullscreen) { /* Safari */
+//         elem.webkitRequestFullscreen();
+//     } else if (elem.msRequestFullscreen) { /* IE11 */
+//         elem.msRequestFullscreen();
+//     }
+// }
 
 
 
@@ -372,49 +394,93 @@ vidOn.forEach((item) => {
 
 
 //close chat
-document.querySelector('.close').addEventListener('click',()=>{
-    document.querySelector('.chatBox').style.display='none'
+document.querySelector('.close').addEventListener('click', () => {
+    document.querySelector('.chatBox').style.display = 'none'
     document.querySelector('.videoBox').classList.remove('active')
 })
 
-document.getElementById('openChat').addEventListener('click',()=>{
-    document.querySelector('.chatBox').style.display='inline-block';
+document.querySelectorAll('.chat')
+
+document.getElementById('openChat').addEventListener('click', () => {
+    console.log(document.querySelectorAll('.chat'))
+    document.querySelector('.chatBox').style.display = 'inline-block';
     document.querySelector('.videoBox').classList.add('active')
     const txt = document.getElementById('contentMessage')
-    txt.innerHTML=''
+    txt.innerHTML = ''
     console.log(txt)
+
     get(ref(dbRef, 'chats'))
         .then((snapshot) => {
             if (snapshot.exists()) {
                 for (let i = 0; i < snapshot.valueOf().size + 1; i++) {
-                    if (i==0) {
-                        console.log('sender:',Object.values(snapshot.val())[i], Object.values(snapshot.val())[i].name)
+                    if (i == 0) {
+                        console.log('sender:', Object.values(snapshot.val())[i], Object.values(snapshot.val())[i].name)
 
                         txt.innerHTML += `<h6>${Object.values(snapshot.val())[i].name}</h6>
                         <span>${Object.values(snapshot.val())[i].text}</span>
                         `
                     }
-                    else{
-                        console.log('sender:',Object.values(snapshot.val())[i], Object.values(snapshot.val())[i].name,Object.values(snapshot.val())[i-1].name)
+                    else {
+                        console.log('sender:', Object.values(snapshot.val())[i], Object.values(snapshot.val())[i].name, Object.values(snapshot.val())[i - 1].name)
 
                         txt.innerHTML += `<span>${Object.values(snapshot.val())[i].text}</span>`
-    
+
                     }
 
 
 
 
-                    
+
                 }
             }
-     
-      })
+
+        })
 })
 
 
 
+//share screen
+// if (adapter.browserDetails.browser == 'firefox') {
+//     adapter.browserShim.shimGetDisplayMedia(window, 'screen');
+// }
 
+function handleSuccess(stream) {
+    shareScreen.disabled = true;
+    const video = document.querySelector('video');
+    console.log('shared')
+    video.srcObject = stream;
 
+    // demonstrates how to detect that the user has stopped
+    // sharing the screen via the browser UI.
+    stream.getVideoTracks()[0].addEventListener('ended', () => {
+        errorMsg('The user has ended sharing the screen');
+        shareScreen.disabled = false;
+    });
+}
+
+function handleError(error) {
+    errorMsg(`getDisplayMedia error: ${error.name}`, error);
+}
+
+function errorMsg(msg, error) {
+    const errorElement = document.querySelector('#errorMsg');
+    // errorElement.innerHTML += `<p>${msg}</p>`;
+    if (typeof error !== 'undefined') {
+        console.error(error);
+    }
+}
+
+const shareScreen = document.getElementById('shareScreen');
+shareScreen.addEventListener('click', () => {
+    navigator.mediaDevices.getDisplayMedia({ video: true })
+        .then(handleSuccess, handleError);
+});
+
+if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
+    shareScreen.disabled = false;
+} else {
+    errorMsg('getDisplayMedia is not supported');
+}
 
 
 
