@@ -36,6 +36,10 @@ var audio = false
 var video = true
 // your friend's webcam
 let remoteStream = null;
+let message;
+let micMuted;
+var fullscreen;
+
 
 
 
@@ -163,16 +167,17 @@ async function getUser() {
                             <div class="name">${user.user.firstname + ' ' + user.user.lastname}</div>
                         </div>`
 
+                        micMuted = document.querySelectorAll('.uil-microphone-slash')
+                        console.log('micccccccccccccc:',micMuted)
+                        fullscreen = document.querySelectorAll('.uil-expand-arrows')
             i++;
+            connection()
 
         }
-
         // updateStarCount('postElement', data);
     });
-    document.querySelectorAll('video')
-    console.log('all video element:', document.querySelectorAll('video'))
 
-    connection()
+
 
     //transfer camera on video
 
@@ -186,7 +191,7 @@ console.log("cells:", cells)
 
 
 //send message in chat
-let message;
+
 // function getText(params) {
 //     message =
 //         console.log(message)
@@ -194,7 +199,8 @@ let message;
 // getText()
 setInterval(() => {
     message = document.getElementById('textMessage').value;
-}, document.getElementById('textMessage').value);
+
+}, document.getElementById('textMessage').value, document.querySelector('.cardbox').children.length);
 
 let sendMessage = document.getElementById('sendMessage');
 sendMessage.addEventListener('click', function () { startMessage() })
@@ -212,16 +218,6 @@ const startMessage = async () => {
         set(push(ref(dbRef, 'chats'), 'user' + user.id), { id: user.id, name: user.firstname, lastname: user.lastname, text: message })
     }
     document.getElementById('textMessage').value = '';
-    //read once
-    // get(child(ref(dbRef, 'chats'), 'user' + user.id))
-    //     .then((snapshot) => {
-    //         if (snapshot.exists()) {
-    //             for (let i = 0; i < snapshot.valueOf().size + 1; i++) {
-    //                 text.textContent += `${}`
-    //             }
-    //         }
-    //     })
-
 
     let text = document.getElementById('contentMessage')
     // read for event 
@@ -247,13 +243,9 @@ const startMessage = async () => {
 
                 }
 
-                // else {
-                //     text.innerHTML += `<h6>${Object.values(data)[i].name}</h6>
-                //                 <span>${Object.values(data)[i].text}</span>`
-                // }
+                
             }
 
-            // updateStarCount('postElement', data);
         });
         message = ''
     }
@@ -302,18 +294,13 @@ async function connection() {
 
 
     if (document.querySelectorAll('video')) {
-        console.log('=========', document.querySelectorAll('video')[0].id)
-        document.getElementById(document.querySelectorAll('video')[0].id).srcObject = localStream
-        // console.log('here is video:', cell.id, document.getElementsByTagName(cell.id))
 
-        // console.log('here is video:',cell.id+1, document.getElementsByTagName(cell.id+1))
-        document.getElementById(document.querySelectorAll('video')[1].id).srcObject = localStream
+        for (let i = 0; i < document.querySelectorAll('video').length; i++) {
+            document.getElementById(document.querySelectorAll('video')[i].id).srcObject = localStream            
+        }
     }
-
-
-
-
 }
+
 
 
 
@@ -321,29 +308,32 @@ async function connection() {
 /* Get the element you want displayed in fullscreen mode (a video in this example): */
 // let elem = document.getElementById('fullscreen').parentElement.childNodes[1]
 // var fullscreen = document.getElementById("fullscreen");
+console.log(';;;;s;d;s;d;s;d;s;',micMuted)
+fullscreen.forEach((item) => {
+    item.addEventListener('click', function () {
+        openFullscreen(e)
+    })
+})
 
-// fullscreen.addEventListener('click', function () {
-//     openFullscreen()
-// })
-
-// function openFullscreen() {
-//     console.log(elem)
-//     if (elem.requestFullscreen) {
-//         elem.requestFullscreen();
-//     } else if (elem.webkitRequestFullscreen) { /* Safari */
-//         elem.webkitRequestFullscreen();
-//     } else if (elem.msRequestFullscreen) { /* IE11 */
-//         elem.msRequestFullscreen();
-//     }
-// }
+function openFullscreen(e) {
+    console.log(parentElement.childNodes[1])
+    if (parentElement.childNodes[1].requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (parentElement.childNodes[1].webkitRequestFullscreen) { /* Safari */
+        parentElement.childNodes[1].webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+        parentElement.childNodes[1].msRequestFullscreen();
+    }
+}
 
 
 
-//  ----------> for click audio
-let micMuted = document.querySelectorAll('.uil-microphone-slash')
+//  ----------> for click audio 
 micMuted.forEach((item) => {
+    console.log('mic muted:', micMuted)
     item.addEventListener('click', () => {
         item.style.display = 'none'
+        console.log(item.nextElementSibling)
         item.nextElementSibling.style.display = "inline-block"
         audio = true
         connection()
