@@ -1,6 +1,6 @@
 // import db from './firebase-config'
 // import {collection ,getDocs, addDoc,doc , updateDoc } from 'firebase/firestore'
-
+// import scrapeCourse from '../app/webScrap/Webscript-data'
 // import { initializeApp } from "firebase/app";
 // import { getFirestore,collection,getDoc,addDoc,doc } from "firebase/firestore";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
@@ -21,7 +21,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// change navbar styles on scroll
+window.addEventListener('scroll', () => {
+    console.log('scroll')
+    document.querySelector('nav').classList.toggle('window_scroll', window.scrollY > 0)
+})
 
+// console.log(scrapeCourse('https://www.edx.org/search?q=free+'))
 // if (!localStorage.getItem("user")) {
 //     let user = []
 //     localStorage.setItem('user',JSON.stringify(user)) 
@@ -149,11 +155,8 @@ function checkPasst(tPass) {
 
 
 
-// change navbar styles on scroll
 
-window.addEventListener('scroll', () => {
-    document.querySelector('nav').classList.toggle('window_scroll', window.scrollY > 0)
-})
+
 
 //  Show/Hide faq answer
 const faqs = document.querySelectorAll('.faq');

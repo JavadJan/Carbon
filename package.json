@@ -1,0 +1,24 @@
+{
+  "name": "carbon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JavadJan/Carbon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JavadJan/Carbon/issues"
+  },
+  "homepage": "https://github.com/JavadJan/Carbon#readme"
+}

@@ -122,11 +122,9 @@
     margin-top: 0;
     padding: 0;
   }
-
   .contact-form {
     margin: 0 1rem 3rem;
   }
-
   .form_name {
     flex-direction: column;
   }

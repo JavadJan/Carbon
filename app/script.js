@@ -67,7 +67,7 @@ async function display() {
     const data = await getDocs(userCollectionRef)
     const users = await data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     let u = users.find(u => u.id === userID)
-    console.log(u)
+    console.log('uuuuuusers: ', u)
     document.getElementById('us').innerText = u.lastname + ' ' + u.firstname
 
 }
@@ -118,21 +118,49 @@ async function displayTodoList() {
         ...doc.data(), id: doc.id
     }))
 
+    
     console.log(todos)
     for (let i = 0; i < todos.length; i++) {
+       
+       let time = {
+        seconds: await todos[i].date.seconds,
+        nanoseconds: await todos[i].date.nanoseconds
+      }
+      
+      let fireBaseTime = new Date(
+        time.seconds * 1000 + time.nanoseconds / 1000000,
+      );
+        console.log(i , await todos[i].date,time,fireBaseTime)
 
-        document.getElementById('listTodos').innerHTML =
-            `<tr data-cell>
-        <td>${todos[i].title}</td>
-        <td>${todos[i].date.toDate()}</td>
-        <td>${todos[i].description}</td>
-        <td>
-            <button data-edit class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="Edit('${todos[i].title}','${todos[i].date}','${todos[i].description}','${todos[i].id}')">Edit</button>
-            <button onclick="del('${todos[i].id}')" class="btn">Delete</button>
-        </td>
-    </tr>`
+        let dat = fireBaseTime.toDateString();
+        let atTime = fireBaseTime.toLocaleTimeString();
+        
+        console.log(dat , atTime)
+        let tbody = document.getElementById('listTodos')
+        let newRow = tbody.insertRow(tbody.length)
+        newRow.setAttribute("id",await todos[i].id);
+        console.log('rowwwwwwwwwwww', newRow)
+        let td0 = newRow.insertCell(0);
+        let td1 = newRow.insertCell(1);
+        let td2 = newRow.insertCell(2);
+        let td3 = newRow.insertCell(3);
+
+        td0.innerHTML =await todos[i].title
+        td1.innerHTML = dat + atTime
+        // d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ': ' + d.getMinutes()
+        td2.innerHTML = await todos[i].description
+        td3.innerHTML = `<a data-cell="edit" class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="Edit('${todos[i].id}')">Edit</a>
+        <a data-edit class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="del('${newRow}')">Delete</a>
+        `
+
+        console.log('bo ro dovom: ',newRow)
+        time={seconds:'',nanoseconds:''}
     }
+    console.log('data-edit: ', document.querySelectorAll('[data-cell]'))
 }
+// '${todos[i].title}','${todos[i].date}','${todos[i].description}','${todos[i].id}'
+// .getDay()+'/'+todos[i].date.toDate().getMonth()+'/'+todos[i].date.toDate().getFullYear() + ' ' +todos[i].date.toDate().getHours()+':'+todos[i].date.toDate().getMinutes()
+
 
 
 
@@ -165,20 +193,21 @@ async function addTodos() {
             <td>${todo.date}</td>
             <td>${todo.description}</td>
             <td>
-                <button class="btn" data-bs-toggle="modal" data-bs-target="#EditModal" onclick="Edit('${todo.title}','${todo.date}','${todo.description}','${todo.id}')">Edit</button>
-                <button class="btn" onclick="del('${todo.id}')">Delete</button>
+                <a class="btn" data-bs-toggle="modal" data-bs-target="#EditModal" onClick="Edit(this)">Edit</a>
+                <a class="btn" onclick="del('${todo.id}')">Delete</a>
             </td>
         </tr>`
         })
 
 
-
+    // '${todo.title}','${todo.date}','${todo.description}','${todo.id}'
 }
 
 
 // ======================= update ========================
-
-function Edit(t, d, ds, i) {
+document.querySelectorAll('[data-edit]')
+function Edit(tr) {
+    console.log(tr)
     document.getElementById('modal-edit').innerHTML =
         `<div class="modal-header" >
     <h5 class="modal-title" id="editModalLabel">Add Project</h5>
@@ -195,7 +224,7 @@ function Edit(t, d, ds, i) {
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary" id="update" data-bs-dismiss="modal" onclick="update('${i}')">update</button>
+    <button type="button" class="btn btn-primary" id="update" data-bs-dismiss="modal" onClick="${update()}">update</button>
   </div>`
 
 
@@ -221,10 +250,10 @@ function update(indis) {
 
     for (let i = 0; i < toDos.length; i++) {
         document.getElementsByTagName('tbody')[0].innerHTML += `<tr data-cell>
-    <td>${toDos[i].title}</td>
-    <td>${toDos[i].date}</td>
-    <td>${toDos[i].description}</td>
-    <td>
+    <td class="Ttitle">${toDos[i].title}</td>
+    <td class="Ttime">${toDos[i].date}</td>
+    <td class="Tdisc">${toDos[i].description}</td>
+    <td class="Tbtn">
         <button data-edit class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="Edit('${toDos[i].title}','${toDos[i].date}','${toDos[i].description}','${i}')">Edit</button>
         <button onclick="del('${toDos[i]}')" class="btn">Delete</button>
     </td>

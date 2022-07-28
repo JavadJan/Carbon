@@ -346,7 +346,7 @@ body{
     color: white;
 
 }
-#fullscreen{
+.uil-expand-arrows{
     position: absolute;
     right: 8px;
     bottom: 10px;

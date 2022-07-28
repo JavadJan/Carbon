@@ -300,15 +300,47 @@ body{
 .details .currentDo table{
     width: 100%;
     border-collapse: collapse;
-    margin-top:10px;
+    margin-top:10px;   
+    /* border:  2px solid green;  */
 }
 .details .currentDo table thead td{
     font-weight: 600;
     line-height: 30px;
+    width: 40%;
+    
 }
-.details .currentDo table tr{
+.details .currentDo table thead td:nth-child(1){
+    font-weight: 600;
+    line-height: 30px;
+    width: 30%;
+    
+}
+.details .currentDo table thead td:nth-child(2){
+    font-weight: 600;
+    line-height: 30px;
+    width: 20%;
+    
+}
+.details .currentDo table thead td:nth-child(3){
+    font-weight: 600;
+    line-height: 30px;
+    width: 35%;
+    
+}
+.details .currentDo table tbody td:last-child{
+    font-weight: 600;
+    line-height: 30px;
+    width: 100%;
+    display: flex;
+    gap: 5px;
+}
+
+
+.details .currentDo table tr {    
     border-bottom: 1px solid rgba(0, 0, 0,0.1);
+    /* width: 100%; */
 }
+
 .details .currentDo table tbody tr:last-child{
     border-bottom: none;
 }
@@ -318,13 +350,16 @@ body{
     
 }
 .details .currentDo table tr td{
-    padding: 9px 5px;
+    padding: 3px 3px;    
 }
 .details .currentDo table thead tr td:last-child{
+    
     text-align: right;
+
 }
 .details .currentDo table tr td:last-child{
     text-align: right;
+    
 }
 .details .currentDo table thead tr td:nth-child(2)
 ,.details .currentDo table tbody tr td:nth-child(2){
@@ -336,8 +371,22 @@ body{
 }
 
 #todos{
-    display: none;
+    display: 5none;
 }
+.Ttitle{
+    /* width: 25%; */
+}
+.Ttime{
+    /* width: 20%; */
+}
+.Tdisc{
+    /* width: 30%; */
+}
+.Tbtn{
+    /* width: 20%; */
+    
+}
+
 
 .status{
     position: relative;

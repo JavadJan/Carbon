@@ -544,23 +544,18 @@ input {
   .container {
     width: var(--container-width-md);
   }
-
   h1 {
     font-size: 2rem;
   }
-
   h2 {
     font-size: 1.7rem;
   }
-
   h3 {
     font-size: 1.4rem;
   }
-
   h4 {
     font-size: 1.2rem;
   }
-
   nav button {
     display: inline-block;
     background: transparent;
@@ -568,11 +563,9 @@ input {
     color: var(--color-white);
     cursor: pointer;
   }
-
   nav button#close-menu-btn {
     display: none;
   }
-
   .nav-menu {
     display: none;
     position: fixed;
@@ -618,7 +611,6 @@ input {
     -webkit-animation-delay: 600ms;
             animation-delay: 600ms;
   }
-
   @-webkit-keyframes animateNav {
     0% {
       transform: rotateZ(-90deg);
@@ -628,7 +620,6 @@ input {
       opacity: 1;
     }
   }
-
   @keyframes animateNav {
     0% {
       transform: rotateZ(-90deg);
@@ -648,13 +639,11 @@ input {
     gap: 0;
     padding-bottom: 3rem;
   }
-
   .categories {
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
   }
-
   .categories_container {
     grid-template-columns: 1fr;
     gap: 5rem;
@@ -662,28 +651,22 @@ input {
   .categories_container .categories_left {
     margin-right: 0;
   }
-
   .courses {
     margin-top: 2rem;
   }
-
   .courses_container {
     grid-template-columns: 1fr 1fr;
   }
-
   .faq {
     padding: 1.5rem;
   }
-
   .faqs_container {
     grid-template-columns: 1fr;
   }
-
   footer .footer_container {
     padding: 1rem;
     grid-template-columns: 1fr 1fr;
   }
-
   .login .login_user {
     width: 100%;
     grid-template-columns: 1fr 1fr;
@@ -719,23 +702,18 @@ input {
   .container {
     width: var(--container-width-sm);
   }
-
   h1 {
     font-size: 1.4rem;
   }
-
   h2 {
     font-size: 1.2rem;
   }
-
   h3 {
     font-size: 1.1rem;
   }
-
   h4 {
     font-size: 1rem;
   }
-
   .nav-menu {
     right: 3%;
   }
@@ -747,7 +725,6 @@ input {
     transform-origin: top right;
     opacity: 0;
   }
-
   header {
     height: -webkit-fit-content;
     height: -moz-fit-content;
@@ -761,12 +738,10 @@ input {
   header .header__container .header_left p {
     margin-bottom: 1.3rem;
   }
-
   .category {
     padding: 1rem;
     border-radius: 1rem;
   }
-
   .categories_container {
     grid-template-columns: 1fr;
     margin-top: 0;
@@ -779,11 +754,9 @@ input {
   .categories_container .categories_right {
     grid-template-columns: 1fr 1fr;
   }
-
   .courses_container {
     grid-template-columns: 1fr;
   }
-
   .student_body {
     padding-top: 10px;
     border: 2px solid green;
@@ -792,7 +765,6 @@ input {
     border: 2px solid green;
     margin-top: 10px;
   }
-
   footer .footer_container {
     grid-template-columns: 1fr;
     text-align: center;
@@ -804,7 +776,6 @@ input {
   footer .footer_container .footer_social {
     justify-content: center;
   }
-
   /*============= LOGIN ============*/
   .login .login_user {
     margin: 0 auto;
@@ -937,22 +908,18 @@ input {
   .about_achivement {
     margin-top: 2rem;
   }
-
   .about_achivement_container {
     grid-template-columns: 1fr;
     gap: 4rem;
   }
-
   .about_achivement_left {
     width: 80%;
     margin: 0 auto;
   }
-
   .team .team_container {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.7rem;
   }
-
   .team .team_member {
     padding: 1rem;
   }
@@ -962,7 +929,6 @@ input {
     grid-template-columns: 1fr 1fr;
     gap: 1.4rem;
   }
-
   .team .team_container {
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;

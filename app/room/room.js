@@ -1,3 +1,5 @@
+// import puppeteer from "puppeteer"
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
 import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
@@ -162,14 +164,14 @@ async function getUser() {
                                 <i class="uil uil-microphone-slash"></i>
                                 <i class="uil uil-microphone"></i>
                             </div>
-                            <div id="fullscreen"><i class="uil uil-expand-arrows"></i></div>
+                            <div id="f${user.user.id + i}"><i class="uil uil-expand-arrows"></i></div>
                             
                             <div class="name">${user.user.firstname + ' ' + user.user.lastname}</div>
                         </div>`
 
-                        micMuted = document.querySelectorAll('.uil-microphone-slash')
+                        micMuted = document.querySelector('.uil-microphone-slash')
                         console.log('micccccccccccccc:',micMuted)
-                        fullscreen = document.querySelectorAll('.uil-expand-arrows')
+                        fullscreen = document.querySelector('.uil-expand-arrows')
             i++;
             connection()
 
@@ -266,7 +268,7 @@ async function connection() {
     // -----------> access to my camera 
 
     // console.log('video:', video, 'audio:', audio)
-    localStream = await navigator.mediaDevices.getUserMedia({ video: video, audio: audio });
+    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
 
     // ------------> get video from your friend
     remoteStream = new MediaStream()
@@ -309,37 +311,37 @@ async function connection() {
 // let elem = document.getElementById('fullscreen').parentElement.childNodes[1]
 // var fullscreen = document.getElementById("fullscreen");
 console.log(';;;;s;d;s;d;s;d;s;',micMuted)
-fullscreen.forEach((item) => {
-    item.addEventListener('click', function () {
-        openFullscreen(e)
-    })
-})
+// fullscreen.forEach((item) => {
+//     item.addEventListener('click', function () {
+//         openFullscreen(e)
+//     })
+// })
 
-function openFullscreen(e) {
-    console.log(parentElement.childNodes[1])
-    if (parentElement.childNodes[1].requestFullscreen) {
-        elem.requestFullscreen();
-    } else if (parentElement.childNodes[1].webkitRequestFullscreen) { /* Safari */
-        parentElement.childNodes[1].webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE11 */
-        parentElement.childNodes[1].msRequestFullscreen();
-    }
-}
+// function openFullscreen(e) {
+//     console.log(parentElement.childNodes[1])
+//     if (parentElement.childNodes[1].requestFullscreen) {
+//         elem.requestFullscreen();
+//     } else if (parentElement.childNodes[1].webkitRequestFullscreen) { /* Safari */
+//         parentElement.childNodes[1].webkitRequestFullscreen();
+//     } else if (elem.msRequestFullscreen) { /* IE11 */
+//         parentElement.childNodes[1].msRequestFullscreen();
+//     }
+// }
 
 
 
 //  ----------> for click audio 
-micMuted.forEach((item) => {
-    console.log('mic muted:', micMuted)
-    item.addEventListener('click', () => {
-        item.style.display = 'none'
-        console.log(item.nextElementSibling)
-        item.nextElementSibling.style.display = "inline-block"
-        audio = true
-        connection()
-        console.log(item)
-    })
-})
+// micMuted.forEach((item) => {
+//     console.log('mic muted:', micMuted)
+//     item.addEventListener('click', () => {
+//         item.style.display = 'none'
+//         console.log(item.nextElementSibling)
+//         item.nextElementSibling.style.display = "inline-block"
+//         audio = true
+//         connection()
+//         console.log(item)
+//     })
+// })
 
 let micOn = document.querySelectorAll('.uil-microphone')
 micOn.forEach((item) => {
@@ -462,6 +464,7 @@ function errorMsg(msg, error) {
 
 const shareScreen = document.getElementById('shareScreen');
 shareScreen.addEventListener('click', () => {
+    console.log('share screen!')
     navigator.mediaDevices.getDisplayMedia({ video: true })
         .then(handleSuccess, handleError);
 });

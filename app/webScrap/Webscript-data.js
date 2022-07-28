@@ -1,10 +1,28 @@
 import puppeteer from "puppeteer"
 import fs from 'fs/promises'
-import { rename } from "fs"
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+
+import { getDatabase, ref, set, onDisconnect, get, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
+    authDomain: "carbon-9105d.firebaseapp.com",
+    databaseURL: "https://carbon-9105d-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "carbon-9105d",
+    storageBucket: "carbon-9105d.appspot.com",
+    messagingSenderId: "740319411128",
+    appId: "1:740319411128:web:2f78ab5d7c5f7e300f2d4d",
+    measurementId: "G-SXFPWZT59L"
+};
 
 
-async function scrapeCourse(url) {
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
+export async function scrapeCourse(url) {
+    
     // lunch puppteer
     const browser = await puppeteer.launch()
 
@@ -62,22 +80,31 @@ async function scrapeCourse(url) {
     }
     console.log(arrLink)
 
-    // const photos = await page.$$eval('.scrollable-discovery-card-spacing > a[href]' , (a)=>{
-    //     return img.map((x)=>x.getAttribute('href'))
-    // })
-    // console.log(photos)
+    const photos = await page.$$eval('.lazy.d-card-hero-image.entered.loaded' , (imgs)=>{
+        return imgs.map(x=>x.src)
+    })
+    console.log(photos)
+    
+    // download picture
+    for (const i in photos) {
+        const imagePage = await page.goto(photos[i]);
+        let pho = photos[i].split("/")[photos[i].split("/").length-1]=i+'.jpg'
+        console.log('poooooooooooo: ',pho)
+        await fs.writeFile(pho,await imagePage.buffer())
+    }
 
-    // // download picture
-    // for (const photo of photos) {
-    //     const imagePage = await page.goto(photo);
-    //     await fs.writeFile(photo.split("/").pop(),await imagePage.buffer())
-    // }
+
+//     document.querySelector('.categories_right').innerHTML+=`<article class="category">
+//     <span class="category_icon"><i class="uil uil-html5-alt"></i></span>
+//     <h5>python</h5>
+//     <p><a href="https://www.edx.org/course/introduction-computer-science-harvardx-cs50x?source=aw&awc=6798_1658416462_58bc4228d611846eb3c8b3752f95482a&utm_source=aw&utm_medium=affiliate_partner&utm_content=text-link&utm_term=301045_https%3A%2F%2Fwww.class-central.com%2F"></a>Python Basics for DataScience…</p>
+// </article>`
 
     browser.close()
 }
 
 
-// var linkPage =['https://www.edx.org/course/introduction-computer-science-harvardx-cs50x?source=aw&awc=6798_1658416462_58bc4228d611846eb3c8b3752f95482a&utm_source=aw&utm_medium=affiliate_partner&utm_content=text-link&utm_term=301045_https%3A%2F%2Fwww.class-central.com%2F' , 'https://www.edx.org/course/introduction-to-linux?source=aw&awc=6798_1658416566_de6c5f55b8c6fee2d5bd0efbe05928d2&utm_source=aw&utm_medium=affiliate_partner&utm_content=text-link&utm_term=301045_https%3A%2F%2Fwww.class-central.com%2F', 'https://www.edx.org/course/introduction-to-computer-science-and-programming-7?source=aw&awc=6798_1658416588_b603975d02db862d586c6b6cdcbc61b6&utm_source=aw&utm_medium=affiliate_partner&utm_content=text-link&utm_term=301045_https%3A%2F%2Fwww.class-central.com%2F']
+var linkPage =['https://www.edx.org/course/introduction-computer-science-harvardx-cs50x?source=aw&awc=6798_1658416462_58bc4228d611846eb3c8b3752f95482a&utm_source=aw&utm_medium=affiliate_partner&utm_content=text-link&utm_term=301045_https%3A%2F%2Fwww.class-central.com%2F' , 'https://www.edx.org/course/introduction-to-linux?source=aw&awc=6798_1658416566_de6c5f55b8c6fee2d5bd0efbe05928d2&utm_source=aw&utm_medium=affiliate_partner&utm_content=text-link&utm_term=301045_https%3A%2F%2Fwww.class-central.com%2F', 'https://www.edx.org/course/introduction-to-computer-science-and-programming-7?source=aw&awc=6798_1658416588_b603975d02db862d586c6b6cdcbc61b6&utm_source=aw&utm_medium=affiliate_partner&utm_content=text-link&utm_term=301045_https%3A%2F%2Fwww.class-central.com%2F']
 
 var courseObj = {
     kaggle: 'https://www.kaggle.com/learn',
@@ -86,7 +113,5 @@ var courseObj = {
 var link = 'https://www.edx.org/search?q=free+'
 
 scrapeCourse(link)
-function hanldePage() {
-    linkPage.map(x => { scrapeCourse(x) })
-}
+
 // hanldePage()
