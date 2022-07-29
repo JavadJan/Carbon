@@ -29,10 +29,10 @@ close_menu_btn.addEventListener('click', () => {
 // const menu = document.querySelector('.nav-menu');
 const open_menu_bt = document.querySelector('#open-menu-bt');
 const close_menu_bt = document.querySelector('#close-menu-bt');
-const navi = document.querySelector('.nav_navigation')
+const navi = document.querySelector('.navigation')
 
 open_menu_bt.addEventListener('click', () => {
-    navi.style.display='flex'
+    navi.style.display = 'flex'
     close_menu_bt.style.display = 'inline-block'
     open_menu_bt.style.display = 'none'
     // open_menu_bt.classList.toggle('active')

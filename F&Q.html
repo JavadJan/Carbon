@@ -6,10 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
+
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
     <!-- font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
     <!--start google font(Montserrat)  -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +36,8 @@
                 <h4>CARBON</h4>
             </a>
 
-            <input id="search" type="text" name="search" placeholder="&#xf002; Search...">
+            <input id="search" type="text" name="search" placeholder="&#xf002; Ask your question...">
+            
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
@@ -62,14 +64,7 @@
                         </span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="home"></ion-icon>
-                        </span>
-                        <span class="title">Home</span>
-                    </a>
-                </li>
+
                 <li id="todoList">
                     <a href="#">
                         <span class="icon">
@@ -102,51 +97,56 @@
                         </span>
                         <span class="title">Help</span>
                     </a>
-
-                </li>
-                <a href="#"></a>
-                <li>
-                    <a href="#">
-                        <span class="icon">
-                            <ion-icon name="cog"></ion-icon>
-                        </span>
-                        <span class="title">Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="logout" onclick="logout()" href="#">
-                        <span class="icon">
-                            <ion-icon name="log-out"></ion-icon>
-                        </span>
-                        <span class="title">Sign out</span>
-                    </a>
                 </li>
             </ul>
         </aside>
 
         <section class="content-question">
-            <article id="table-question">
 
+            <article id="question">
                 <div class="box-question">
                     <h4>question 1</h4>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia incidunt itaque fugit pariatur,
-                        inventore ipsum?</p>
+                        inventore ipsum?
+                    </p>
+
+                    <div class="info questioner">
+                        <span>@name</span>
+                        <span>@username</span>
+                        <span><i class="uil uil-favorite"></i></span>
+                        <span><i class="uil uil-user"></i></span>
+                    </div>
+
                 </div>
                 <div class="box-answer">
                     <div class="rate">
-                        
+                        <i id="rate-up" class="uil uil-angle-up"></i>
+                        <span id="counter">10</span>
+                        <i id="rate-down" class="uil uil-angle-down"></i>
                     </div>
                     <div class="answer">
                         <h4>Answer</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia incidunt itaque fugit
                             pariatur,
                             inventore ipsum?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione ad eveniet ab a error adipisci, ex cum assumenda odio vitae earum rem, ipsa id fugiat in eum quos! Perspiciatis, voluptatem?
                         </p>
+                        <div class="info responser">
+                            <span>@name</span>
+                            <span>@username</span>
+                            <span><i class="uil uil-favorite"></i></span>
+                            <span><i class="uil uil-user"></i></span>
+                        </div>
                     </div>
 
                 </div>
 
 
+            </article>
+
+            <article id="editor">
+                <h4>Answer</h4>
+                <textarea name="edit-content" id="" cols="30" rows="10"></textarea>
             </article>
         </section>
 
@@ -217,6 +217,12 @@
         </div>
     </footer>
 
+
+    <!-- editor -->
+    <script src="./ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('edit-content')
+    </script>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
