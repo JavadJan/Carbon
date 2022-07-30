@@ -331,8 +331,14 @@ footer .footer_copyright {
 #main #editor {
   margin-top: 1rem;
 }
+#main #editor h4 {
+  margin: 1rem;
+}
 #main #editor textarea {
   min-width: 500px;
+}
+#main #editor button {
+  background: var(--color-orange);
 }
 #main .top-question {
   border: 1px solid #d7d9d9;

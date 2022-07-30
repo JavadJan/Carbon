@@ -331,8 +331,14 @@
   }
 #editor{
   margin-top: 1rem;
+  h4{
+    margin: 1rem;
+  }
   textarea{
     min-width: 500px;
+  }
+  button{
+    background: var(--color-orange);
   }
 }
 .top-question{
