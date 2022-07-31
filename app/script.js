@@ -1,6 +1,6 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-import { getFirestore, doc, getDoc, getDocs, collection, addDoc, query, where, setDoc, collectionGroup, orderBy } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+import { getFirestore, doc, getDocs, collection, addDoc, query, setDoc, updateDoc,deleteDoc} from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
@@ -27,35 +27,24 @@ window.addEventListener('scroll', () => {
 
 
 var index = 0;
-if (!localStorage.toDos) {
-    var toDos = [
-        {
-            title: "Work ou",
-            date: "02/11/2022",
-            description: "this is for",
-        },
-        {
-            title: "Work ou",
-            date: "02/11/2022",
-            description: "this is for test",
-        },
-        {
-            title: "Work ou",
-            date: "02/11/2022",
-            description: "this is for test",
-        }
-    ]
-    localStorage.setItem('toDos', JSON.stringify(toDos))
-}
-else {
-    var toDos = JSON.parse(localStorage.getItem('toDos'))
-}
+let userID;
+let editClick
+let delClick
+let updateBtn;
 
+// if (!JSON.parse(localStorage.getItem('logged')) {
+//     window.location.href='http://127.0.0.1:5500/login.html'
+// }
+
+document.getElementById('logout').addEventListener('click', function () { logout() })
 function logout() {
+    const user = JSON.parse(localStorage.getItem('logged'));
+    userID = user.id
     localStorage.removeItem('logged')
+
+    // await updateDoc(doc(db , "users" , userID) , {'loggin':false})
     window.location.href = 'http://127.0.0.1:5500/login.html'
 }
-let userID;
 async function display() {
 
     const user = JSON.parse(localStorage.getItem('logged'));
@@ -89,8 +78,7 @@ document.getElementById('courses').addEventListener('click', () => {
     document.getElementById('course-group').style.display = 'inline-block'
 })
 
-let editClick
-let delClick
+
 
 //#region  ========================== todoList ====================
 // const todo = document.getElementById('todoList')
@@ -110,7 +98,6 @@ async function displayTodoList() {
     document.getElementById('currentHeader').textContent = document.getElementById('todoList').textContent
 
 
-    console.log(toDos.length)
 
     //read from firebase
     const todoCollectionRef = await collection(db, `users/${userID}/todo`)
@@ -138,16 +125,18 @@ async function displayTodoList() {
         // d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear() + ' ' + d.getHours() + ': ' + d.getMinutes()
         td2.innerHTML = await todos[i].description
         td3.innerHTML = `<a data-edit="edit" class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  id="${todos[i].id}">Edit</a>
-        <a data-del class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  id="${todos[i].id}">Delete</a>
+        <a data-del class="btn" id="${todos[i].id}">Delete</a>
         `
     }
+
+    //select rows 
     editClick = document.querySelectorAll('[data-edit]')
     delClick = document.querySelectorAll('[data-del]')
 
     //for edit
     editClick.forEach((e) => {
-        e.addEventListener('click',async function () {
-             Edit(e)
+        e.addEventListener('click', async function () {
+            Edit(e)
         })
     })
 
@@ -158,10 +147,6 @@ async function displayTodoList() {
 
 
 }
-// '${todos[i].title}','${todos[i].date}','${todos[i].description}','${todos[i].id}'
-// .getDay()+'/'+todos[i].date.toDate().getMonth()+'/'+todos[i].date.toDate().getFullYear() + ' ' +todos[i].date.toDate().getHours()+':'+todos[i].date.toDate().getMinutes()
-
-
 
 
 
@@ -227,29 +212,27 @@ async function addTodos() {
 
         td2.innerHTML = await todos[i].description
         td3.innerHTML = `<a data-edit="edit" class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  id="${todos[i].id}">Edit</a>
-        <a data-del class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  id="${todos[i].id}">Delete</a>
+        <a data-del class="btn" id="${todos[i].id}">Delete</a>
         `
     }
-
-
-
-
 }
 
 
 // ======================= update ========================
+async function Edit(tr) {
 
+    console.log(tr.id, tr.value)
 
+    //read todo from forestore
+    const todoCollection = await collection(db, `users/${userID}/todo`)
+    const data = await getDocs(todoCollection)
+    const todos = await data.docs.map((doc) => ({
+        ...doc.data(), id: doc.id
+    }))
 
+    const todo = todos.find(d => d.id === tr.id)
+    console.log('tttttttttttttt', todo)
 
-function Edit(tr) {
-    let content = document.getElementById(tr.id + '1')
-    console.log(content.children[0].textContent)
-    console.log(content.children[1].textContent)
-    console.log(content.children[2].textContent)
-    console.log(content.children[3].textContent)
-    console.log('edit: ', editClick)
-    console.log('del: ', delClick)
     document.getElementById('modal-edit').innerHTML =
         `<div class="modal-header" >
     <h5 class="modal-title" id="editModalLabel">Edit Task </h5>
@@ -271,60 +254,146 @@ function Edit(tr) {
   </div>`
 
 
-    document.getElementById('up_title').value = content.children[0].textContent
-    document.getElementById('up_date').value = content.children[1].textContent
-    document.getElementById('time').value = content.children[1].textContent
-    document.getElementById('up_description').value = content.children[2].textContent
-    index = i
+    document.getElementById('up_title').value = todo.title
+    document.getElementById('up_date').value = todo.data
+    document.getElementById('time').value = todo.time
+    document.getElementById('up_description').value = todo.description
+    index = tr.id
     console.log(index)
+
+
+    editClick = document.querySelectorAll('[data-edit]')
+    delClick = document.querySelectorAll('[data-del]')
+
+    //for edit
+    editClick.forEach((e) => {
+        e.addEventListener('click', async function () {
+            Edit(e)
+        })
+    })
+
+    // for delete
+    delClick.forEach((e) => {
+        e.addEventListener('click', async function () { del(e) })
+    })
+
+    document.getElementById('update').addEventListener('click', function () { update(tr.id) })
+
 }
 
 // ========================= UPDATE ========================
-document.getElementById('update').addEventListener('click', function () { update(e) })
-async function update(indis) {
+
+
+
+async function update(andis) {
     let title = document.getElementById('up_title').value
     let date = document.getElementById('up_date').value
+    let time = document.getElementById('up_time').value
     let des = document.getElementById('up_description').value
 
-    let todo = { title: title, date: date, description: des }   
-    
-    toDos.splice(indis, 1, todo);
-    localStorage.setItem('toDos', JSON.stringify(toDos))
-    toDos = JSON.parse(localStorage.getItem('toDos'))
-    document.getElementsByTagName('tbody')[0].innerHTML = ''
+    console.log(andis)
+    let todo = { title: title, data: date, time: time, description: des }
 
-    for (let i = 0; i < toDos.length; i++) {
-        document.getElementsByTagName('tbody')[0].innerHTML += `<tr data-cell>
-    <td class="Ttitle">${toDos[i].title}</td>
-    <td class="Ttime">${toDos[i].date}</td>
-    <td class="Tdisc">${toDos[i].description}</td>
-    <td class="Tbtn">
-        <button data-edit class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="Edit('${toDos[i].title}','${toDos[i].date}','${toDos[i].description}','${i}')">Edit</button>
-        <button onclick="del('${toDos[i]}')" class="btn">Delete</button>
-    </td>
-</tr>`
+    // toDos.splice(andis, 1, todo);
+    // localStorage.setItem('toDos', JSON.stringify(toDos))
+    // toDos = JSON.parse(localStorage.getItem('toDos'))
+
+    console.log(doc(db, `users/${userID}/todo`, andis))
+    await updateDoc(doc(db, `users/${userID}/todo`, andis), { todo })
+
+
+    const todoCollectionRef = await collection(db, `users/${userID}/todo`)
+    const dat = await getDocs(todoCollectionRef)
+    const todos = await dat.docs.map((doc) => ({
+        ...doc.data(), id: doc.id
+    }))
+
+    let tbody = document.getElementById('listTodos')
+    tbody.innerHTML = ''
+
+    console.log(todos)
+    for (let i = 0; i < todos.length; i++) {
+        let newRow = tbody.insertRow(tbody.length)
+        newRow.setAttribute("id", await todos[i].id);
+        let td0 = newRow.insertCell(0);
+        let td1 = newRow.insertCell(1);
+        let td2 = newRow.insertCell(2);
+        let td3 = newRow.insertCell(3);
+
+        td0.innerHTML = await todos[i].title
+        td1.innerHTML = todos[i].data + ' ' + todos[i].time
+
+        td2.innerHTML = await todos[i].description
+        td3.innerHTML = `<a data-edit="edit" class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  id="${todos[i].id}">Edit</a>
+        <a data-del class="btn"  id="${todos[i].id}">Delete</a>
+        `
     }
+
+
+    editClick = document.querySelectorAll('[data-edit]')
+    delClick = document.querySelectorAll('[data-del]')
+
+    //for edit
+    editClick.forEach((e) => {
+        e.addEventListener('click', async function () {
+            Edit(e)
+        })
+    })
+
+    // for delete
+    delClick.forEach((e) => {
+        e.addEventListener('click', async function () { del(e) })
+    })
 }
 
-console.log('before del :', toDos)
-function del(i) {
-    console.log(i)
-    toDos.splice(i, 1)
-    localStorage.setItem('toDos', JSON.stringify(toDos))
-    toDos = JSON.parse(localStorage.getItem('toDos'))
-    console.log(toDos)
-    document.getElementsByTagName('tbody')[0].innerHTML = ''
-    for (let i = 0; i < toDos.length; i++) {
-        document.getElementsByTagName('tbody')[0].innerHTML += `<tr data-cell>
-    <td>${toDos[i].title}</td>
-    <td>${toDos[i].date}</td>
-    <td>${toDos[i].description}</td>
-    <td>
-        <button data-edit class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  onclick="Edit('${toDos[i].title}','${toDos[i].date}','${toDos[i].description}','${i}')">Edit</button>
-        <button onclick="del('${toDos[i]}')" class="btn">Delete</button>
-    </td>
-</tr>`
+async function del(andis) {
+    console.log(andis.id)
+    alert('are you sure to delete?')
+    // toDos.splice(i, 1)
+    // localStorage.setItem('toDos', JSON.stringify(toDos))
+    // toDos = JSON.parse(localStorage.getItem('toDos'))
+
+    // console.log(toDos)
+
+    await deleteDoc(doc(db, `users/${userID}/todo`, andis.id))
+
+
+    let tbody = document.getElementById('listTodos')
+    tbody.innerHTML = ''
+
+    console.log(todos)
+    for (let i = 0; i < todos.length; i++) {
+        let newRow = tbody.insertRow(tbody.length)
+        newRow.setAttribute("id", await todos[i].id);
+        let td0 = newRow.insertCell(0);
+        let td1 = newRow.insertCell(1);
+        let td2 = newRow.insertCell(2);
+        let td3 = newRow.insertCell(3);
+
+        td0.innerHTML = await todos[i].title
+        td1.innerHTML = todos[i].data + ' ' + todos[i].time
+
+        td2.innerHTML = await todos[i].description
+        td3.innerHTML = `<a data-edit="edit" class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  id="${todos[i].id}">Edit</a>
+        <a data-del class="btn" data-bs-toggle="modal" data-bs-target="#EditModal"  id="${todos[i].id}">Delete</a>
+        `
     }
+
+
+    editClick = document.querySelectorAll('[data-edit]')
+    delClick = document.querySelectorAll('[data-del]')
+
+    //for edit
+    editClick.forEach((e) => {
+        e.addEventListener('click', async function () {
+            Edit(e)
+        })
+    })
+
+    // for delete
+    delClick.forEach((e) => {
+        e.addEventListener('click', async function () { del(e) })
+    })
 
 }
 //#endregion ================ todoList =============================

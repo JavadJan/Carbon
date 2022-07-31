@@ -269,18 +269,21 @@
 
       .box-answer{
         display: flex;
+        justify-content: space-between;
         border-top: 1px solid var(--black-075);
         border-bottom: 1px solid var(--black-075);
         padding: 1rem;
         padding-bottom: 0;
         height: fit-content;
+        position: relative;
         .answer p{
           margin-left: 2rem;
         }
       }
 
       .rate{
-        width: 100px;
+        width: fit-content;
+        border: 2px solid green;
         height: 100px;
         margin: 0 1rem;
         display: flex;
@@ -289,6 +292,8 @@
         justify-content: center;
         gap: 0;
         box-shadow: 4px 4px 8px inset rgba(242, 239, 239, 0.254);
+        flex-wrap: nowrap;
+        position: relative;
         #rate-up{
           font-size: 25px;
           color: var(--color-orange);
@@ -312,7 +317,6 @@
       align-items: center;
       justify-content: end;
       padding: 5px;
-      left: 10rem;
       color: rgb(11, 11, 239);      
       span{
         cursor: pointer;
@@ -320,12 +324,15 @@
     }
     .questioner{
       position: relative;
-      left: 26rem;
+      left: 63%;
       bottom: 0;
+      right: 0;
+      margin-right: 10px;
     }
     .responser{
       position: relative;
-      left: 23rem;
+      margin-right: 10px;
+      left: 61%;
       bottom: 0;
     }
   }

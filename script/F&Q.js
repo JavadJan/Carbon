@@ -4,6 +4,13 @@ window.addEventListener('scroll', () => {
     document.querySelector('nav').classList.toggle('window_scroll', window.scrollY > 0);
 })
 
+//content text Area
+document.getElementById('submit').addEventListener('click', function(){SubAnswer()})
+
+function SubAnswer() {
+    console.log(CKEDITOR.instances.editor.getData())
+}
+
 
 
 
