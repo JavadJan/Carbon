@@ -29,7 +29,7 @@ const server = {
         }
     ]
 }
-
+window.open('http://127.0.0.1:5501/app/room/chat.html');
 let pc = new RTCPeerConnection(server);
 
 // your webcam
@@ -169,9 +169,9 @@ async function getUser() {
                             <div class="name">${user.user.firstname + ' ' + user.user.lastname}</div>
                         </div>`
 
-                        micMuted = document.querySelector('.uil-microphone-slash')
-                        console.log('micccccccccccccc:',micMuted)
-                        fullscreen = document.querySelector('.uil-expand-arrows')
+            micMuted = document.querySelector('.uil-microphone-slash')
+            console.log('micccccccccccccc:', micMuted)
+            fullscreen = document.querySelector('.uil-expand-arrows')
             i++;
             connection()
 
@@ -245,7 +245,7 @@ const startMessage = async () => {
 
                 }
 
-                
+
             }
 
         });
@@ -298,7 +298,7 @@ async function connection() {
     if (document.querySelectorAll('video')) {
 
         for (let i = 0; i < document.querySelectorAll('video').length; i++) {
-            document.getElementById(document.querySelectorAll('video')[i].id).srcObject = localStream            
+            document.getElementById(document.querySelectorAll('video')[i].id).srcObject = localStream
         }
     }
 }
@@ -310,7 +310,7 @@ async function connection() {
 /* Get the element you want displayed in fullscreen mode (a video in this example): */
 // let elem = document.getElementById('fullscreen').parentElement.childNodes[1]
 // var fullscreen = document.getElementById("fullscreen");
-console.log(';;;;s;d;s;d;s;d;s;',micMuted)
+console.log(';;;;s;d;s;d;s;d;s;', micMuted)
 // fullscreen.forEach((item) => {
 //     item.addEventListener('click', function () {
 //         openFullscreen(e)
@@ -474,7 +474,10 @@ if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
 } else {
     errorMsg('getDisplayMedia is not supported');
 }
+window.open('http://127.0.0.1:5501/app/room/chat.html');
 
-
-
+document.getElementById('leave').addEventListener('click', () => {
+    alert('Are you sure to leave ?')
+    window.close()
+})
 

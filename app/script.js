@@ -1,5 +1,5 @@
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+import { initializeApp , firebase } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
 import { getFirestore, doc, getDocs, collection, addDoc, query, setDoc, updateDoc,deleteDoc} from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
 export const firebaseConfig = {
@@ -65,6 +65,7 @@ display()
 // -------------------------- Room --------------------
 const rom = document.getElementById('room')
 rom.addEventListener('click', () => {
+    console.log('go to room')
     let url = `http://127.0.0.1:5501/app/room/chat.html`
     document.location.href = url
 })
