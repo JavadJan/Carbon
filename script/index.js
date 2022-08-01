@@ -1,8 +1,3 @@
-// import db from './firebase-config'
-// import {collection ,getDocs, addDoc,doc , updateDoc } from 'firebase/firestore'
-// import scrapeCourse from '../app/webScrap/Webscript-data'
-// import { initializeApp } from "firebase/app";
-// import { getFirestore,collection,getDoc,addDoc,doc } from "firebase/firestore";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
 import { getFirestore, doc, getDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-firestore.js";
 
@@ -59,58 +54,50 @@ valid.forEach(e => {
     })
 })
 
-const validation = async (user) => {
-    console.log(user.value)
+const validation = async (d) => {
+    console.log(d.value)
 
     // ========== VALIDATE EMAIL ================
-    if (user.id === 'user_email_register') {
+    if (d.id === 'user_email_register') {
 
         // check in firestore
         const userCollectionRef = collection(db, "users")
         const data = await getDocs(userCollectionRef)
-        const user = data.docs.map((doc) => ({
+        const users = data.docs.map((doc) => ({
             ...doc.data(), id: doc.id
         }))
+        console.log(d.value)
 
-        if (regEmail.test(user.value) && !user.some((u) => u.email === user.value)) {
+        if (regEmail.test(d.value) && users.some((u) => u.email !== d.value) && d.value !== '') {
+            console.log('shart bar gharar bood!')
             document.querySelector('.error_email').style.display = 'none'
-            document.getElementById('password_register').focus()
+            // document.getElementById('password_register').focus()
         }
         else {
-            if (user.value==='') {
-                document.getElementById('register').focus;
-            }
-            else{
-                console.log('email na dororst! ')
-                document.querySelector('.error_email').innerHTML = `Format email is wrong! <i class="uil uil-exclamation-triangle"></i>`
-                document.querySelector('.error_email').style.display = 'inline-block'
-                document.getElementById('user_email_register').focus();
-            }
+            // document.getElementById('register').focus();
+            document.querySelector('.error_email').innerHTML = `Format email is wrong! <i class="uil uil-exclamation-triangle"></i>`
+            document.querySelector('.error_email').style.display = 'inline-block'
+            document.getElementById('user_email_register').focus();
         }
 
+
     }
-    else if (user.id === 'password_register') {
+    else if (d.id === 'password_register') {
         // ------ validation password ------------
-        if (regPass.test(user.value)) {
+        if (regPass.test(d.value) && d.value !== '') {
             document.querySelector('.error_pass').style.display = 'none'
-            document.getElementById('confirm_password').focus()
+            // document.getElementById('confirm_password').focus()
             console.log('pass pattern dorost')
         }
         else {
-            if (user.value==='') {
-                document.getElementById('register').focus;
-            }
-            else{
-                document.querySelector('.error_pass').innerHTML = `Use strong password! <i class="uil uil-exclamation-triangle"></i>`
-                document.querySelector('.error_pass').style.display = 'inline-block'
-                document.getElementById('password_register').focus();
-            }
-            
+            document.getElementById('register').focus();
+            document.querySelector('.error_pass').innerHTML = `Use strong password! <i class="uil uil-exclamation-triangle"></i>`
+            document.querySelector('.error_pass').style.display = 'inline-block'
         }
     }
-    if (user.id === 'confirm_password') {
+    if (d.id === 'confirm_password') {
 
-        if (!checkPasst(user)) {
+        if (!checkPasst(d)) {
             document.querySelector('.error_pass_confirm').innerHTML = `your password is not the same!<i class="uil uil-exclamation-triangle"></i>`
             document.querySelector('.error_pass_confirm').style.display = 'inline-block';
             document.getElementById('confirm_password').focus()
@@ -128,16 +115,16 @@ const validation = async (user) => {
 
 
 
-function checkPass(pass) {
-    if (regPass.test(pass.value) && pass.value === '' && pass.value.length > 8) {
-        console.log(true)
-        return true
-    }
-    else {
-        console.log(false)
-        return false
-    }
-}
+// function checkPass(pass) {
+//     if (regPass.test(pass.value) && pass.value === '' && pass.value.length > 8) {
+//         console.log(true)
+//         return true
+//     }
+//     else {
+//         console.log(false)
+//         return false
+//     }
+// }
 
 function checkPasst(tPass) {
     if (tPass.value === document.getElementById('password_register').value) {
@@ -189,4 +176,3 @@ close_menu_btn.addEventListener('click', () => {
     open_menu_btn.style.display = 'inline-block'
     close_menu_btn.style.display = 'none'
 })
-

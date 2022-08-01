@@ -1,30 +1,39 @@
-import puppeteer from "puppeteer"
+import Puppeteer from "puppeteer"
+
 import fs from 'fs/promises'
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
+// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+// import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-firestore.js";
 
-import { getDatabase, ref, set, onDisconnect, get, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
+// import { getDatabase, ref, set, onDisconnect, get, onValue, push, child } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-database.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
-    authDomain: "carbon-9105d.firebaseapp.com",
-    databaseURL: "https://carbon-9105d-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "carbon-9105d",
-    storageBucket: "carbon-9105d.appspot.com",
-    messagingSenderId: "740319411128",
-    appId: "1:740319411128:web:2f78ab5d7c5f7e300f2d4d",
-    measurementId: "G-SXFPWZT59L"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBz07j_YkeaW0yE87C4e9w8qETSoyz4aJ8",
+//     authDomain: "carbon-9105d.firebaseapp.com",
+//     databaseURL: "https://carbon-9105d-default-rtdb.europe-west1.firebasedatabase.app",
+//     projectId: "carbon-9105d",
+//     storageBucket: "carbon-9105d.appspot.com",
+//     messagingSenderId: "740319411128",
+//     appId: "1:740319411128:web:2f78ab5d7c5f7e300f2d4d",
+//     measurementId: "G-SXFPWZT59L"
+// };
 
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const db = getFirestore(app);
 
-export async function scrapeCourse(url) {
+
+
+
+
+document.getElementById('logo').addEventListener('click' , ()=>{
+    console.log('puppeteer')
+})
+
+async function scrapeCourse(url) {
     
     // lunch puppteer
-    const browser = await puppeteer.launch()
+    const browser = await Puppeteer.launch()
 
     // create a browser web page
     const page = await browser.newPage()

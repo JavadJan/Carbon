@@ -119,22 +119,21 @@
   }
   
   nav {
-    background: white;
+    background: var(--color-bg);
     border-bottom: 1px solid rgb(235, 231, 231) ;
     width: 100vw;
     height: 5rem;
     position: fixed;
     top: 0;
     z-index: 11;
+    
   }
   
   /* change navbar styles on scroll using javascript */
-  .navigation_scroll{
-    
-  }
+  
 
   .window_scroll {
-    background-color: #414040;
+    background-color: var(--color-primary);
     box-shadow: var(--color-primary);
     a{
         color: var(--color-white);
@@ -173,16 +172,26 @@
   
   .nav-menu a {
     font-size: 0.9rem;
+    color: white;
+  }
+  #sgn_up{
+    color: black;
+  }
+  nav a h4 {
+    color: white;
+  }
+  .uil-bars , .uil-multiply{
+    color: white;
   }
   
   .nav-menu a:hover {
-    color: var(--color-bg2);
+    color: #f8f8f8;
     transition: var(--transition);
   }
 
   footer{
     position: relative;
-    background-color: #414040;
+    background-color:var(--color-bg);
     color: white;
     h4{
       color: white;
@@ -218,7 +227,7 @@
     gap: 1rem;
 
     .navigation{
-      background-color: white;
+      background:var(--color-bg);
       display: flex;
       gap: 2rem  ;
       border: 1px solid #d7d9d9;
@@ -241,10 +250,11 @@
           a{
             display: flex;
             gap: 1rem ;
+            color: var(--color-border-gr);
           }
           ion-icon{
             font-size: 20px;
-            color: var(--color-orange);
+            color: var(--color-white);
           }
         }
     }   
@@ -283,7 +293,6 @@
 
       .rate{
         width: fit-content;
-        border: 2px solid green;
         height: 100px;
         margin: 0 1rem;
         display: flex;
@@ -434,9 +443,10 @@
       height: -moz-fit-content;
       height: fit-content;
       width: 18rem;
-      background: transparent;
+      background: white;
       border: none;
       margin-top: 5px;
+      z-index: 1;
       /*-------------------- RESPONSIVE LOGIN PAGE ---------*/
     }
     
@@ -450,6 +460,8 @@
               animation: animNav 400ms linear forwards;
       transform-origin: top left;
       opacity: 0;
+      z-index: 9999;
+      
     }
     .navigation li a {
       background: var(--black-300);
@@ -464,6 +476,7 @@
       justify-content: center;
       gap: 1rem;
     }
+    
     .navigation li a:hover {
       background: var(--color-bg2);
       color: var(--color-white);

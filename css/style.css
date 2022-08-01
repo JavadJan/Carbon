@@ -497,7 +497,6 @@ input {
      object-fit: contain;
 }
 .register .register_user .register_user_right {
-  position: absolute;
   right: 5rem;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -697,8 +696,16 @@ input {
     padding: 0.8rem;
     padding-bottom: 1.5rem;
   }
+  .register .register_user {
+    display: flex;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+  }
 }
 @media screen and (max-width: 600px) {
+  .register_user_left {
+    display: none;
+  }
   .container {
     width: var(--container-width-sm);
   }

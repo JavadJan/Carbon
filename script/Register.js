@@ -70,8 +70,10 @@ const CreateAccount = async () => {
         console.log(users.length, users[i].email)
         if (users[i].email === user.email) {
             document.getElementById('already_logged').textContent = `This email already exist!`
+            document.getElementById('already_logged').style.color='red'
             return
         }
+
     }
 
     // write to database/firestore
@@ -79,7 +81,7 @@ const CreateAccount = async () => {
     await addDoc(userCollectionRef, { firstname: name, lastname: lastname, email: e, password: p, status: 'logout'})
     console.log('added!')
 
-    // window.location.href = 'http://127.0.0.1:5500/login.html'
+    window.location.href = 'http://127.0.0.1:5500/login.html'
 
 
 }

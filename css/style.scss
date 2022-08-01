@@ -509,7 +509,7 @@ input{
             }
         }
         .register_user_right{
-            position: absolute;
+            // position: absolute;
             right: 5rem;
             height: fit-content;
             display: flex;
@@ -621,6 +621,8 @@ input{
         li:nth-child(4){
             animation-delay: 600ms;
         } 
+
+        
         /*-------------------- RESPONSIVE LOGIN PAGE ---------*/
     
     }
@@ -706,9 +708,27 @@ input{
             padding-bottom: 1.5rem;
         }
     }
+     
+        
+        
+        .register  .register_user{
+            // border: 2px solid green;
+            display:flex ;
+            gap: 2rem;
+            grid-template-columns: 1fr;
+
+        }
+    
+
 }
 
 @media screen and (max-width:600px) {
+    
+        .register_user_left{
+            display: none;
+        }
+    
+
     .container{
         width: var(--container-width-sm);
     }
